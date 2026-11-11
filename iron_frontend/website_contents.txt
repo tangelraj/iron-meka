@@ -1,0 +1,1131 @@
+
+========== Navbar.jsx ==========
+
+
+import React, { useState } from "react";
+import "./Navbar.css";
+
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About Us", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Why Choose Us", href: "#why-choose-us" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "Contact", href: "#contact" },
+];
+
+function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <header className="navbar">
+      <div className="navbar-container">
+
+        {/* Logo */}
+        <a href="#home" className="navbar-logo">
+          <img src="/logo.png" alt="Iron Me.Ka Logo" />
+        </a>
+
+        {/* Navigation links */}
+        <nav className={menuOpen ? "nav-menu active" : "nav-menu"}>
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={closeMenu}
+            >
+              {link.label}
+            </a>
+          ))}
+
+          <a
+            href="#booking"
+            className="mobile-book-btn"
+            onClick={closeMenu}
+          >
+            Book a Service
+          </a>
+        </nav>
+
+        {/* Booking button */}
+        <a href="#booking" className="book-btn">
+          Book a Service
+        </a>
+
+        {/* Mobile menu button */}
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
+
+      </div>
+    </header>
+  );
+}
+
+export default Navbar;
+
+========== HeroSection.jsx ==========
+
+
+import React, { useEffect, useState } from "react";
+import "./HeroSection.css";
+
+const slides = [
+  {
+    image: "/hero1.png",
+    eyebrow: "SAREE CARE",
+    title: "Expert Care for Every Fabric",
+    description:
+      "Professional saree care, ironing, steaming and finishing — handled with care and precision.",
+  },
+  {
+    image: "/hero2.png",
+    eyebrow: "PROFESSIONAL IRONING",
+    title: "Expert Care for Every Fabric",
+    description:
+      "Professional saree care, ironing, steaming and finishing — handled with care and precision.",
+  },
+  {
+    image: "/hero3.png",
+    eyebrow: "NEATLY FINISHED",
+    title: "Expert Care for Every Fabric",
+    description:
+      "Professional saree care, ironing, steaming and finishing — handled with care and precision.",
+  },
+];
+
+function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(
+      (prev) => (prev - 1 + slides.length) % slides.length
+    );
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const animationClass =
+    currentSlide === 0
+      ? "hero-text-left"
+      : currentSlide === 1
+      ? "hero-text-fade"
+      : "hero-text-bottom-left";
+
+  return (
+    <section className="hero-section" id="home">
+      {/* Background slides */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`hero-slide ${
+            index === currentSlide ? "active" : ""
+          } ${index === 0 ? "hero-first-slide" : ""}`}
+          style={{
+            backgroundImage: `url("${slide.image}")`,
+          }}
+        />
+      ))}
+
+      <div className="hero-overlay"></div>
+
+      {/* Animated text */}
+      <div
+        key={currentSlide}
+        className={`hero-content ${animationClass}`}
+      >
+        <p className="hero-eyebrow">
+          {slides[currentSlide].eyebrow}
+        </p>
+
+        <h1>{slides[currentSlide].title}</h1>
+
+        <p className="hero-description">
+          {slides[currentSlide].description}
+        </p>
+
+        <div className="hero-buttons">
+          <a href="#booking" className="hero-book-btn">
+            Book a Service
+          </a>
+
+          <a href="#services" className="hero-view-btn">
+            View Services
+          </a>
+        </div>
+      </div>
+
+      {/* Slider arrows */}
+      <button
+        type="button"
+        className="hero-arrow hero-prev"
+        onClick={prevSlide}
+        aria-label="Previous slide"
+      >
+        &#10094;
+      </button>
+
+      <button
+        type="button"
+        className="hero-arrow hero-next"
+        onClick={nextSlide}
+        aria-label="Next slide"
+      >
+        &#10095;
+      </button>
+
+      {/* Slider dots */}
+      <div className="hero-dots">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            className={`hero-dot ${
+              index === currentSlide ? "active" : ""
+            }`}
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default HeroSection;
+
+========== AboutSection.jsx ==========
+
+
+import React from "react";
+import "./AboutSection.css";
+
+const features = [
+  {
+    title: "Quality Finishing",
+    icon: "award",
+  },
+  {
+    title: "Gentle Fabric Care",
+    icon: "feather",
+  },
+  {
+    title: "Professional Handling",
+    icon: "heart",
+  },
+];
+
+function FeatureIcon({ type }) {
+  if (type === "award") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="8" r="5" />
+        <path d="M8.5 12L7 22l5-3 5 3-1.5-10" />
+      </svg>
+    );
+  }
+
+  if (type === "feather") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20 4c-5-2-10 1-13 6-2 3-2 6-2 9" />
+        <path d="M20 4c2 7-3 13-10 13H5" />
+        <path d="M3 21L17 7" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M3 14l5-3 4 2 5-5a2 2 0 0 1 3 3l-6 7-6 2-5-3z" />
+      <path d="M12 8l2-3a2 2 0 0 1 4 1" />
+      <path d="M8 11l3-3" />
+    </svg>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section className="about-section" id="about">
+      <div className="about-container">
+
+        {/* Left Image */}
+        <div className="about-image-wrapper">
+          <div className="about-image-border"></div>
+
+          <img
+            src="/about.png"
+            alt="Traditional saree being carefully handled"
+            className="about-image"
+          />
+
+          <div className="about-experience">
+            <span className="about-years">12+</span>
+            <span className="about-years-label">
+              YEARS OF CARE
+            </span>
+          </div>
+        </div>
+
+        {/* Right Content */}
+        <div className="about-content">
+          <p className="about-eyebrow">ABOUT US</p>
+
+          <h2>
+            Care That Makes Every Fabric Feel Special
+          </h2>
+
+          <p className="about-description">
+            At Vastra Care, we believe every garment carries a
+            story — from the silk saree worn at a wedding to
+            the crisp veshti for a festival morning. Our
+            trained team handles each fabric by hand,
+            choosing the right heat, steam and finish for
+            its weave.
+          </p>
+
+          <p className="about-description">
+            With a deep respect for traditional wear and an
+            eye for detail, we deliver pieces that look,
+            feel and drape their very best.
+          </p>
+
+          {/* Feature Cards */}
+          <div className="about-features">
+            {features.map((feature) => (
+              <div className="about-feature-card" key={feature.title}>
+                <FeatureIcon type={feature.icon} />
+                <span>{feature.title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+export default AboutSection;
+
+========== ServicesSection.jsx ==========
+
+
+import React from "react";
+import "./ServicesSection.css";
+
+const services = [
+  {
+    id: 1,
+    title: "Saree Rolling",
+    description:
+      "Neat and professional rolling for easy storage and handling.",
+    price: 60,
+    image: "/Image_SareeRolling.png",
+  },
+  {
+    id: 2,
+    title: "Towel Ironing & Refreshing",
+    description:
+      "Fresh, neat and comfortable finishing for towels.",
+    price: 20,
+    image: "/Image_TowelIroningRefreshing.png",
+  },
+  {
+    id: 3,
+    title: "Coat & Delicate Fabric Steam Refresh",
+    description:
+      "Gentle steam treatment for coats and delicate fabrics.",
+    price: 150,
+    image: "/Image_CoatDelicateFabricSteamRefresh.png",
+  },
+  {
+    id: 4,
+    title: "Cotton Veshti Starching & Polishing",
+    description:
+      "Crisp starching and polished finishing for cotton veshti.",
+    price: 80,
+    image: "/Image_CottonVeshtiStarchingPolishing.png",
+  },
+  {
+    id: 5,
+    title: "Silk Veshti Polishing",
+    description:
+      "Careful polishing to maintain the premium silk appearance.",
+    price: 120,
+    image: "/Image_SilkVeshtiPolishing.png",
+  },
+  {
+    id: 6,
+    title: "Bed Sheet & Cover Ironing",
+    description:
+      "Smooth and neatly finished bed sheets and covers.",
+    price: 40,
+    image: "/Image_BedSheetCoverIroning.png",
+  },
+  {
+    id: 7,
+    title: "Saree Pre-Pleating",
+    description:
+      "Ready-to-wear pre-pleating for convenient styling.",
+    price: 250,
+    image: "/Image_SareePre-Pleating.png",
+  },
+  {
+    id: 8,
+    title: "Saree Polishing",
+    description:
+      "Professional polishing to enhance the saree's finish and appearance.",
+    price: 150,
+    image: "/Image_SareePolishing.png",
+  },
+  {
+    id: 9,
+    title: "Cotton Saree Starching & Polishing",
+    description:
+      "Crisp starching with a clean, polished finish.",
+    price: 120,
+    image: "/Image_CottonSareeStarchingPolishing.png",
+  },
+  {
+    id: 10,
+    title: "Saree Folding",
+    description:
+      "Neat and careful folding for organized storage.",
+    price: 40,
+    image: "/hero3.png",
+  },
+];
+
+function ServicesSection() {
+  const handleBooking = (service) => {
+    const bookingSection = document.getElementById("booking");
+
+    if (bookingSection) {
+      window.location.hash = "booking";
+    } else {
+      window.location.hash = "contact";
+    }
+  };
+
+  return (
+    <section className="services-section" id="services">
+      <div className="services-container">
+
+        {/* Section Heading */}
+        <div className="services-heading">
+          <p className="services-eyebrow">WHAT WE DO</p>
+
+          <h2>Our Fabric Care Services</h2>
+
+          <div className="services-decoration">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+
+          <p className="services-subtitle">
+            Specialized care and finishing for your everyday
+            wear and traditional fabrics.
+          </p>
+        </div>
+
+        {/* Service Cards */}
+        <div className="services-grid">
+          {services.map((service, index) => (
+            <article className="service-card" key={service.id}>
+
+              <div className="service-image-wrapper">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="service-image"
+                  loading="lazy"
+                />
+
+                <span className="service-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              <div className="service-card-content">
+                <h3>{service.title}</h3>
+
+                <p className="service-description">
+                  {service.description}
+                </p>
+
+                <div className="service-card-footer">
+                  <div className="service-price">
+                    <span>FROM</span>
+                    <strong>₹{service.price}</strong>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="service-book-btn"
+                    onClick={() => handleBooking(service)}
+                    aria-label={`Book ${service.title}`}
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+
+            </article>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+export default ServicesSection;
+
+========== WhyChooseUsSection.jsx ==========
+
+
+import React from "react";
+import {
+  ShieldCheck,
+  Flower2,
+  Feather,
+  Award
+} from "lucide-react";
+
+import "./WhyChooseUsSection.css";
+
+const features = [
+  {
+    icon: ShieldCheck,
+    title: "Professional Fabric Care",
+    description: "Every fabric receives appropriate care.",
+  },
+  {
+    icon: Flower2,
+    title: "Specialized Saree Care",
+    description:
+      "Dedicated finishing for sarees and traditional wear.",
+  },
+  {
+    icon: Feather,
+    title: "Delicate Fabric Handling",
+    description:
+      "Careful treatment for premium and delicate materials.",
+  },
+  {
+    icon: Award,
+    title: "Neat Premium Finish",
+    description:
+      "Consistent, clean and polished results.",
+  },
+];
+
+function WhyChooseUsSection() {
+  return (
+    <section className="why-section" id="why-choose-us">
+      <div className="why-container">
+
+        {/* Heading */}
+        <div className="why-heading">
+          <p className="why-eyebrow">WHY CHOOSE US</p>
+
+          <h2>The Vastra Care Difference</h2>
+
+          <div className="why-decoration">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="why-grid">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+
+            return (
+              <div className="why-card" key={index}>
+                <div className="why-icon-circle">
+                  <Icon size={34} strokeWidth={1.8} />
+                </div>
+
+                <h3>{feature.title}</h3>
+
+                <p>{feature.description}</p>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+export default WhyChooseUsSection;
+
+========== HowItWorksSection.jsx ==========
+
+
+import React from "react";
+import {
+  ClipboardList,
+  Hand,
+  WandSparkles,
+  CircleCheck
+} from "lucide-react";
+
+import "./HowItWorksSection.css";
+
+const steps = [
+  {
+    number: "01",
+    icon: ClipboardList,
+    title: "Choose Your Service",
+    description: "Select the service you need.",
+  },
+  {
+    number: "02",
+    icon: Hand,
+    title: "Hand Over Your Clothes",
+    description:
+      "Give us your garments for professional care.",
+  },
+  {
+    number: "03",
+    icon: WandSparkles,
+    title: "Expert Care & Finishing",
+    description:
+      "Our team carefully handles and finishes them.",
+  },
+  {
+    number: "04",
+    icon: CircleCheck,
+    title: "Ready to Wear",
+    description:
+      "Receive your fresh, neat and beautifully finished clothes.",
+  },
+];
+
+function HowItWorksSection() {
+  return (
+    <section className="how-section" id="how-it-works">
+      <div className="how-container">
+
+        <div className="how-heading">
+          <p className="how-eyebrow">HOW IT WORKS</p>
+
+          <h2>Simple, Careful, Complete</h2>
+
+          <div className="how-decoration">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+        </div>
+
+        <div className="how-steps">
+          {steps.map((step) => {
+            const Icon = step.icon;
+
+            return (
+              <div className="how-step" key={step.number}>
+                <div className="how-icon-circle">
+                  <Icon size={28} strokeWidth={1.8} />
+                </div>
+
+                <span className="how-number">
+                  {step.number}
+                </span>
+
+                <h3>{step.title}</h3>
+
+                <p>{step.description}</p>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+export default HowItWorksSection;
+
+========== TestimonialsSection.jsx ==========
+
+
+import React from "react";
+import { Star } from "lucide-react";
+import "./TestimonialsSection.css";
+
+// Sample reviews for layout demonstration.
+// Replace with genuine customer reviews before publishing.
+const testimonials = [
+  {
+    id: 1,
+    name: "Lakshmi R.",
+    initial: "L",
+    review:
+      "My Kanjivaram silks came back beautifully polished and rolled. They treat every saree like it's their own.",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Arun Kumar",
+    initial: "A",
+    review:
+      "The silk veshti polishing for my wedding was flawless. Crisp, shining and on time.",
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: "Priya S.",
+    initial: "P",
+    review:
+      "Pre-pleating has saved me so much time before functions. Perfect pleats every single time!",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Meena V.",
+    initial: "M",
+    review:
+      "Gentle with delicate fabrics and very professional. My go-to for all traditional wear.",
+    rating: 5,
+  },
+];
+
+function TestimonialsSection() {
+  return (
+    <section className="testimonials-section" id="reviews">
+      <div className="testimonials-container">
+
+        {/* Section Heading */}
+        <div className="testimonials-heading">
+          <p className="testimonials-eyebrow">
+            TESTIMONIALS
+          </p>
+
+          <h2>Loved by Our Customers</h2>
+
+          <div className="testimonials-decoration">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+        </div>
+
+        {/* Review Cards */}
+        <div className="testimonials-grid">
+          {testimonials.map((testimonial) => (
+            <article
+              className="testimonial-card"
+              key={testimonial.id}
+            >
+              {/* Gold Stars */}
+              <div
+                className="testimonial-stars"
+                aria-label={`${testimonial.rating} out of 5 stars`}
+              >
+                {Array.from(
+                  { length: testimonial.rating },
+                  (_, index) => (
+                    <Star
+                      key={index}
+                      size={20}
+                      fill="currentColor"
+                      strokeWidth={1.5}
+                      aria-hidden="true"
+                    />
+                  )
+                )}
+              </div>
+
+              {/* Review Text */}
+              <p className="testimonial-review">
+                “{testimonial.review}”
+              </p>
+
+              {/* Customer */}
+              <div className="testimonial-customer">
+                <div className="testimonial-avatar">
+                  {testimonial.initial}
+                </div>
+
+                <div className="testimonial-customer-info">
+                  <h3>{testimonial.name}</h3>
+                  <span>Verified customer</span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+export default TestimonialsSection;
+
+========== ContactSection.jsx ==========
+
+
+import React from "react";
+import {
+  Phone,
+  MessageCircle,
+  MapPin,
+  Clock
+} from "lucide-react";
+
+import "./ContactSection.css";
+
+const phoneNumber = "919790263322";
+
+function ContactSection() {
+  const whatsappMessage =
+    "Hello Iron Me·Ka, I would like to book a fabric care service.";
+
+  const whatsappLink =
+    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const openWhatsApp = () => {
+  const phone = "918792694177";
+
+  const message =
+    "Hello Iron Me·Ka, I would like to book your saree and fabric care service.";
+
+  const encodedMessage = encodeURIComponent(message);
+
+  // Attempt to open the installed WhatsApp app
+  window.location.href =
+    `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+};
+
+  return (
+    <section className="contact-section" id="contact">
+      <div className="contact-container">
+
+        {/* LEFT PANEL */}
+        <div className="contact-left">
+          <p className="contact-eyebrow">
+            BOOK TODAY
+          </p>
+
+          <h2>
+            Give Your Clothes the Care They Deserve
+          </h2>
+
+          <p className="contact-description">
+            From everyday ironing to delicate saree and
+            traditional wear care, we make every piece
+            look its best.
+          </p>
+
+          <div className="contact-buttons">
+            <a
+              href="#booking"
+              className="contact-book-btn"
+            >
+              Book a Service
+            </a>
+
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-whatsapp-btn"
+            >
+              <MessageCircle size={19} />
+              WhatsApp Us
+            </a>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL */}
+        <div className="contact-right">
+
+          <div className="contact-info-item">
+            <div className="contact-info-icon">
+              <Phone size={23} />
+            </div>
+
+            <div className="contact-info-text">
+              <span>PHONE</span>
+              <a href="tel:+919790263322">
+                +91 9790263322
+              </a>
+            </div>
+          </div>
+
+          <div className="contact-info-item">
+            <div className="contact-info-icon">
+              <MessageCircle size={23} />
+            </div>
+
+            <div className="contact-info-text">
+              <span>WHATSAPP</span>
+                <a
+                    href={`whatsapp://send?phone=918792694177&text=${encodeURIComponent(
+                        "Hello Iron Me·Ka, I would like to book your saree and fabric care service."
+                    )}`}
+                    className="contact-whatsapp-btn"
+                >  
+                  <MessageCircle size={18} />
+                    WhatsApp Us
+                </a>
+            </div>
+          </div>
+
+          <div className="contact-info-item">
+            <div className="contact-info-icon">
+              <MapPin size={23} />
+            </div>
+
+            <div className="contact-info-text">
+              <span>ADDRESS</span>
+              <p>
+                6 Vincent de Paul street,
+                <br />
+                COLAS NAGAR,
+                <br />
+                PONDICHERRY - 605001
+              </p>
+            </div>
+          </div>
+
+          <div className="contact-info-item">
+            <div className="contact-info-icon">
+              <Clock size={23} />
+            </div>
+
+            <div className="contact-info-text">
+              <span>BUSINESS HOURS</span>
+              <p>
+                Mon–Sat 9:00 AM – 8:00 PM
+                <br />
+                Sun 10:00 AM – 2:00 PM
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default ContactSection;
+
+========== Footer.jsx ==========
+
+
+import React from "react";
+import "./Footer.css";
+
+const quickLinks = [
+  { name: "Home", link: "#home" },
+  { name: "About Us", link: "#about" },
+  { name: "Services", link: "#services" },
+  { name: "Why Choose Us", link: "#why-choose-us" },
+  { name: "Reviews", link: "#reviews" },
+  { name: "Contact", link: "#contact" },
+];
+
+const services = [
+  "Saree Rolling",
+  "Towel Ironing & Refreshing",
+  "Coat & Delicate Fabric Steam Refresh",
+  "Cotton Veshti Starching & Polishing",
+  "Silk Veshti Polishing",
+  "Bed Sheet & Cover Ironing",
+];
+
+function SocialIcon({ type }) {
+  if (type === "instagram") {
+    return (
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  if (type === "facebook") {
+    return (
+      <svg
+        width="19"
+        height="19"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      >
+        <path d="M15 21v-8h3l.5-4H15V7c0-1.2.4-2 2-2h2V2.2A22 22 0 0 0 16 2c-3 0-5 1.8-5 5v2H8v4h3v8" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      width="19"
+      height="19"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <rect x="2" y="5" width="20" height="14" rx="4" />
+      <path d="m10 9 5 3-5 3z" />
+    </svg>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="iron-footer">
+      <div className="footer-container">
+
+        {/* BRAND SECTION */}
+        <div className="footer-brand">
+          <a href="#home" className="footer-logo-link">
+            <img
+              src="/logo.png"
+              alt="Iron Me·Ka Logo"
+              className="footer-logo"
+            />
+          </a>
+
+          <p>
+            Premium saree and fabric care — rolling,
+            pleating, polishing, starching and steaming,
+            done by hand with precision.
+          </p>
+
+          <div className="footer-socials">
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <SocialIcon type="instagram" />
+            </a>
+
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <SocialIcon type="facebook" />
+            </a>
+
+            <a
+              href="https://www.youtube.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <SocialIcon type="youtube" />
+            </a>
+          </div>
+        </div>
+
+        {/* QUICK LINKS */}
+        <div className="footer-column">
+          <h3>Quick Links</h3>
+
+          <ul>
+            {quickLinks.map((item) => (
+              <li key={item.name}>
+                <a href={item.link}>
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* SERVICES */}
+        <div className="footer-column">
+          <h3>Services</h3>
+
+          <ul>
+            {services.map((service) => (
+              <li key={service}>
+                <a href="#services">
+                  {service}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* CONTACT */}
+        <div className="footer-column footer-contact">
+          <h3>Contact</h3>
+
+          <a href="tel:+919790263322">
+            +91 9790263322
+          </a>
+
+          <a href="mailto:hello@vastracare.in">
+            hello@vastracare.in
+          </a>
+
+          <p>
+            6 Vincent de Paul street,
+            <br />
+            COLAS NAGAR,
+            <br />
+            PONDICHERRY - 605001
+          </p>
+
+          <p>Mon–Sat 9 AM – 8 PM</p>
+        </div>
+
+      </div>
+
+      {/* COPYRIGHT */}
+      <div className="footer-bottom">
+        <p>
+          © {new Date().getFullYear()} Iron Me·Ka.
+          All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;
