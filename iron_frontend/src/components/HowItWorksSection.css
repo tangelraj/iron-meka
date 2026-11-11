@@ -211,3 +211,8 @@
     font-size: 14px;
   }
 }
+.how-step-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
