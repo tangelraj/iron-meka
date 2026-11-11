@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 
+
 from .models import (
     WebsiteSettings,
     NavigationLink,
@@ -119,18 +120,17 @@ class HeroSlideAdmin(admin.ModelAdmin):
         }),
     )
 
-    def image_preview(self, obj):
-        if obj and obj.image:
-            return format_html(
-                '<img src="{}" style="width:150px;'
-                'height:90px;object-fit:cover;'
-                'border-radius:6px;" />',
-                obj.image.url,
-            )
+    def preview(self, obj):
+        frontend_url = "https://YOUR-VERCEL-DOMAIN.vercel.app"
 
-        return "No image uploaded"
+        image_url = f"{frontend_url}/hero{obj.display_order}.png"
 
-    image_preview.short_description = "Preview"
+        return format_html(
+        '<img src="{}" style="width:180px;height:110px;object-fit:cover;border-radius:8px;" />',
+        image_url,
+    )
+
+    preview.short_description = "Preview"
 
 
 
