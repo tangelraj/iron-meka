@@ -137,7 +137,6 @@ DATABASES = {
     )
 }
 
-# Use a separate PostgreSQL schema for Iron MeKa.
 if os.environ.get("DATABASE_URL"):
     DATABASES["default"]["OPTIONS"] = {
         "options": "-c search_path=iron_meka"
