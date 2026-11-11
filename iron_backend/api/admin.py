@@ -87,6 +87,8 @@ class HeroSlideAdmin(admin.ModelAdmin):
         "description",
     )
 
+    ordering = ("display_order",)
+
     readonly_fields = ("image_preview",)
 
     fieldsets = (
@@ -120,17 +122,62 @@ class HeroSlideAdmin(admin.ModelAdmin):
         }),
     )
 
-    def preview(self, obj):
-        frontend_url = "https://YOUR-VERCEL-DOMAIN.vercel.app"
-
-        image_url = f"{frontend_url}/hero{obj.display_order}.png"
-
-        return format_html(
-        '<img src="{}" style="width:180px;height:110px;object-fit:cover;border-radius:8px;" />',
-        image_url,
+    @admin.display(
+        description="Image Preview",
+        ordering="display_order",
     )
+    def image_preview(self, obj):
+        if not obj or not obj.pk:
+            return "No image"
 
-    preview.short_description = "Preview"
+        try:
+            if not obj.image:
+                return "No image uploaded"
+
+            return format_html(
+                '<img src="{}" width="180" height="110" '
+                'style="object-fit:cover;border-radius:8px;" />',
+                obj.image.url,
+            )
+
+        except (ValueError, OSError):
+            return "Image unavailable"
+
+    @admin.display(description="Image Preview")
+    def image_preview(self, obj):
+        if not obj or not obj.pk:
+            return "No image"
+
+        try:
+            if not obj.image:
+                return "No image uploaded"
+
+            return format_html(
+                '<img src="{}" width="180" height="110" '
+                'style="object-fit:cover;border-radius:8px;" />',
+                obj.image.url,
+            )
+        except (ValueError, OSError):
+            return "Image unavailable"
+
+
+    @admin.display(description="Image Preview")
+    def image_preview(self, obj):
+        if not obj or not obj.pk:
+            return "No image"
+
+        try:
+            if not obj.image:
+                return "No image uploaded"
+
+            return format_html(
+                '<img src="{}" width="180" height="110" '
+                'style="object-fit:cover;border-radius:8px;" />',
+                obj.image.url,
+            )
+
+        except (ValueError, OSError):
+            return "Image unavailable"
 
 
 
@@ -148,14 +195,27 @@ class ContentItemAdmin(admin.ModelAdmin):
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = (
-        "name", "starting_price",
-        "display_order", "is_active"
+        "name",
+        "display_order",
+        "is_active",
     )
+
+    list_display_links = ("name",)
+
     list_editable = (
-        "starting_price", "display_order", "is_active"
+        "display_order",
+        "is_active",
     )
-    search_fields = ("name", "description")
+
+    search_fields = (
+        "name",
+        "description",
+    )
+
     list_filter = ("is_active",)
+
+    ordering = ("display_order", "name")
+
 
 
 @admin.register(Testimonial)
