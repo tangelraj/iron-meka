@@ -38,7 +38,7 @@ sections = {
     },
     "why_choose_us": {
         "eyebrow": "WHY CHOOSE US",
-        "heading": "The Vastra Care Difference",
+        "heading": "The Iron Me·Ka Difference",
         "description": (
             "We combine careful fabric handling, specialized "
             "saree care and attention to detail to give "
