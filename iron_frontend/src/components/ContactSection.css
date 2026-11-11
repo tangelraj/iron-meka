@@ -1,0 +1,282 @@
+
+/* ======================================
+   IRON ME·KA CONTACT SECTION
+====================================== */
+
+.contact-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 80px 0 90px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contact-container {
+  width: 88%;
+  max-width: 1500px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+
+  border-radius: 28px;
+  overflow: hidden;
+
+  box-shadow: 0 20px 40px rgba(116, 28, 62, 0.13);
+}
+
+/* ======================================
+   LEFT PANEL
+====================================== */
+
+.contact-left {
+  background: #741c3e;
+  padding: 65px 65px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-eyebrow {
+  color: #d4ad60;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  margin: 0 0 20px;
+}
+
+.contact-left h2 {
+  color: #fffaf6;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 3vw, 46px);
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0 0 25px;
+}
+
+.contact-description {
+  color: #e4c5cf;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 0 35px;
+}
+
+/* ======================================
+   BUTTONS
+====================================== */
+
+.contact-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.contact-book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #d4ad60;
+  color: #2d2525;
+
+  padding: 14px 28px;
+  border-radius: 35px;
+
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition: 0.3s ease;
+}
+
+.contact-book-btn:hover {
+  background: #e5bf77;
+  transform: translateY(-3px);
+}
+
+.contact-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background: transparent;
+  color: #ffffff;
+
+  padding: 13px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 35px;
+
+  font-size: 15px;
+  text-decoration: none;
+
+  transition: 0.3s ease;
+}
+
+.contact-whatsapp-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ======================================
+   RIGHT PANEL
+====================================== */
+
+.contact-right {
+  background: #faf5ec;
+  padding: 55px 55px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.contact-info-icon {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #741c3e;
+  color: #d4ad60;
+}
+
+.contact-info-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-info-text span {
+  display: block;
+  color: #817674;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.contact-info-text p,
+.contact-info-text a {
+  color: #302b2b;
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 0;
+  text-decoration: none;
+}
+
+.contact-info-text a:hover {
+  color: #741c3e;
+}
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (max-width: 1024px) {
+  .contact-container {
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-left {
+    padding: 45px 35px;
+  }
+
+  .contact-right {
+    padding: 45px 30px;
+  }
+
+  .contact-left h2 {
+    font-size: 34px;
+  }
+
+  .contact-info-text p,
+  .contact-info-text a {
+    font-size: 14px;
+  }
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 55px 0 65px;
+  }
+
+  .contact-container {
+    width: 90%;
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+
+  .contact-left {
+    padding: 40px 28px;
+  }
+
+  .contact-right {
+    padding: 40px 28px;
+    gap: 25px;
+  }
+
+  .contact-left h2 {
+    font-size: 32px;
+  }
+
+  .contact-description {
+    font-size: 14px;
+  }
+
+  .contact-info-icon {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+  }
+
+  .contact-info-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .contact-info-text p,
+  .contact-info-text a {
+    font-size: 14px;
+  }
+}
+
+/* ======================================
+   SMALL MOBILE
+====================================== */
+
+@media (max-width: 400px) {
+  .contact-left,
+  .contact-right {
+    padding: 30px 20px;
+  }
+
+  .contact-left h2 {
+    font-size: 28px;
+  }
+
+  .contact-buttons {
+    gap: 12px;
+  }
+
+  .contact-book-btn,
+  .contact-whatsapp-btn {
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+}

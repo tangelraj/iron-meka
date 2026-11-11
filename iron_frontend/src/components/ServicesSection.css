@@ -1,0 +1,367 @@
+
+/* ==========================================
+   IRON ME·KA - SERVICES SECTION
+========================================== */
+
+.services-section {
+  width: 100%;
+  background: #faf5ec;
+  padding: 110px 0 130px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.services-container {
+  width: 92%;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* ==========================================
+   SECTION HEADING
+========================================== */
+
+.services-heading {
+  text-align: center;
+  margin-bottom: 95px;
+}
+
+.services-eyebrow {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  color: #cda251;
+  margin: 0 0 25px;
+}
+
+.services-heading h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(40px, 4vw, 64px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #741c3e;
+  margin: 0;
+}
+
+.services-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 35px 0;
+}
+
+.services-decoration span {
+  width: 55px;
+  height: 1.5px;
+  background: #d4ac61;
+}
+
+.services-decoration i {
+  width: 9px;
+  height: 9px;
+  background: #d4ac61;
+  transform: rotate(45deg);
+}
+
+.services-subtitle {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #746b69;
+  margin: 0;
+}
+
+/* ==========================================
+   SERVICES GRID
+========================================== */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 38px;
+}
+
+/* ==========================================
+   SERVICE CARD
+========================================== */
+
+.service-card {
+  min-width: 0;
+  background: #fffdfb;
+  border: 1px solid #eadfcf;
+  border-radius: 30px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 12px 25px rgba(74, 42, 25, 0.035);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(74, 42, 25, 0.12);
+}
+
+/* ==========================================
+   SERVICE IMAGE
+========================================== */
+
+.service-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  overflow: hidden;
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  transition: transform 0.5s ease;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.06);
+}
+
+/* Service Number */
+
+.service-number {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  min-width: 50px;
+  height: 35px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 25px;
+  background: #514131;
+  color: #d7b467;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   SERVICE CONTENT
+========================================== */
+
+.service-card-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.service-card-content h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #741c3e;
+
+  margin: 0 0 16px;
+}
+
+.service-description {
+  color: #746b69;
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+/* ==========================================
+   PRICE AND BOOKING BUTTON
+========================================== */
+
+.service-card-footer {
+  margin-top: auto;
+  padding-top: 25px;
+  border-top: 1px dashed #e9ddcd;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.service-price {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.service-price span {
+  color: #857b78;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.service-price strong {
+  color: #302626;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.service-book-btn {
+  background: transparent;
+  color: #741c3e;
+  border: 1.5px solid #741c3e;
+  border-radius: 30px;
+
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.service-book-btn:hover {
+  background: #741c3e;
+  color: #ffffff;
+}
+
+/* ==========================================
+   LARGE LAPTOP
+========================================== */
+
+@media (max-width: 1500px) {
+  .services-grid {
+    gap: 24px;
+  }
+
+  .service-card-content {
+    padding: 24px;
+  }
+
+  .service-card-content h3 {
+    font-size: 20px;
+  }
+
+  .service-description {
+    font-size: 16px;
+  }
+
+  .service-image-wrapper {
+    height: 190px;
+  }
+
+  .service-book-btn {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 1100px) {
+  .services-section {
+    padding: 80px 0 100px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+  }
+
+  .services-heading {
+    margin-bottom: 65px;
+  }
+}
+
+/* ==========================================
+   SMALL TABLET
+========================================== */
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .services-heading h2 {
+    font-size: 42px;
+  }
+
+  .services-subtitle {
+    font-size: 17px;
+  }
+
+  .service-card-content {
+    padding: 22px;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 520px) {
+  .services-section {
+    padding: 65px 0 80px;
+  }
+
+  .services-container {
+    width: 90%;
+  }
+
+  .services-heading {
+    margin-bottom: 45px;
+  }
+
+  .services-eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+
+  .services-heading h2 {
+    font-size: 35px;
+  }
+
+  .services-subtitle {
+    font-size: 15px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .service-image-wrapper {
+    height: 230px;
+  }
+
+  .service-card-content {
+    padding: 25px;
+  }
+
+  .service-card-content h3 {
+    font-size: 23px;
+  }
+
+  .service-description {
+    font-size: 16px;
+  }
+
+  .service-book-btn {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+}

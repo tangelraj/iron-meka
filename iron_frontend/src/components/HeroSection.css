@@ -1,0 +1,488 @@
+
+/* ==========================================
+   IRON ME·KA - HERO SECTION
+========================================== */
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 760px;
+  min-height: 650px;
+  overflow: hidden;
+  background-color: #241716;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ==========================================
+   BACKGROUND SLIDES
+========================================== */
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1);
+
+  transition: opacity 0.8s ease-in-out;
+  z-index: 0;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+/* Only first slide background zooms */
+
+.hero-first-slide.active {
+  animation: firstSlideZoom 5s ease-out forwards;
+}
+
+@keyframes firstSlideZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Slide 2 and 3 remain normal */
+
+.hero-slide:not(.hero-first-slide) {
+  animation: none;
+  transform: scale(1);
+}
+
+/* ==========================================
+   DARK OVERLAY
+========================================== */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    rgba(20, 13, 12, 0.75) 0%,
+    rgba(25, 15, 14, 0.5) 42%,
+    rgba(20, 12, 12, 0.08) 100%
+  );
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ==========================================
+   HERO CONTENT
+========================================== */
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 4.7%;
+  transform: translateY(-50%);
+
+  z-index: 2;
+  width: min(800px, 82%);
+  color: #ffffff;
+}
+
+/* Small top heading */
+
+.hero-eyebrow {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #d9b45e;
+  text-transform: uppercase;
+  margin: 0 0 28px;
+}
+
+/* Main heading */
+
+.hero-content h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5vw, 90px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -1px;
+
+  max-width: 720px;
+  margin: 0 0 40px;
+}
+
+/* Description */
+
+.hero-description {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #e5dfdb;
+
+  max-width: 760px;
+  margin: 0 0 45px;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.hero-book-btn,
+.hero-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 68px;
+  padding: 0 38px;
+  border-radius: 50px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: all 0.3s ease;
+}
+
+/* Book a Service */
+
+.hero-book-btn {
+  background-color: #741c3e;
+  color: #ffffff;
+  border: 1px solid #741c3e;
+}
+
+.hero-book-btn:hover {
+  background-color: #59132e;
+  border-color: #59132e;
+}
+
+/* View Services */
+
+.hero-view-btn {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  border: 1.5px solid #d2ad55;
+}
+
+.hero-view-btn:hover {
+  background-color: #d2ad55;
+  color: #231515;
+}
+
+/* ==========================================
+   SLIDER ARROWS
+========================================== */
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 3;
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+
+  font-size: 25px;
+  cursor: pointer;
+
+  transition: background 0.3s ease;
+}
+
+.hero-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.hero-prev {
+  left: 26px;
+}
+
+.hero-next {
+  right: 26px;
+}
+
+/* ==========================================
+   SLIDER DOTS
+========================================== */
+
+.hero-dots {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-dot {
+  width: 12px;
+  height: 12px;
+
+  border: none;
+  border-radius: 50px;
+
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.hero-dot.active {
+  width: 50px;
+  background-color: #e8bd61;
+}
+
+/* ==========================================
+   SLIDE 1 - TEXT FROM LEFT
+========================================== */
+
+.hero-text-left {
+  animation: heroFromLeft 1.2s ease-out both;
+}
+
+@keyframes heroFromLeft {
+  from {
+    opacity: 0;
+    transform: translate(-120px, -50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+/* ==========================================
+   SLIDE 2 - FADE IN
+========================================== */
+
+.hero-text-fade {
+  animation: heroFadeIn 1.2s ease-out both;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+/* ==========================================
+   SLIDE 3 - BOTTOM CENTER TO LEFT
+========================================== */
+
+.hero-text-bottom-left {
+  animation: heroBottomToLeft 1.5s ease-out both;
+}
+
+@keyframes heroBottomToLeft {
+  from {
+    opacity: 0;
+    left: 50%;
+    top: 85%;
+    transform: translate(-50%, -50%);
+  }
+
+  to {
+    opacity: 1;
+    left: 4.7%;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+}
+
+/* ==========================================
+   TABLET RESPONSIVE
+========================================== */
+
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 650px;
+    min-height: 600px;
+  }
+
+  .hero-content {
+    left: 7%;
+    width: 78%;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(44px, 6vw, 65px);
+  }
+
+  .hero-description {
+    font-size: 19px;
+  }
+
+  .hero-arrow {
+    width: 50px;
+    height: 50px;
+  }
+
+  @keyframes heroBottomToLeft {
+    from {
+      opacity: 0;
+      left: 50%;
+      top: 85%;
+      transform: translate(-50%, -50%);
+    }
+
+    to {
+      opacity: 1;
+      left: 7%;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 650px;
+    min-height: 600px;
+  }
+
+  .hero-slide {
+    background-position: center;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 13, 12, 0.85),
+      rgba(20, 13, 12, 0.4)
+    );
+  }
+
+  .hero-content {
+    left: 8%;
+    width: 84%;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(38px, 9vw, 54px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .hero-buttons {
+    gap: 12px;
+  }
+
+  .hero-book-btn,
+  .hero-view-btn {
+    min-height: 50px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .hero-arrow {
+    top: auto;
+    bottom: 15px;
+    transform: none;
+
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
+
+  .hero-prev {
+    left: 15px;
+  }
+
+  .hero-next {
+    right: 15px;
+  }
+
+  .hero-dots {
+    bottom: 30px;
+  }
+
+  @keyframes heroBottomToLeft {
+    from {
+      opacity: 0;
+      left: 50%;
+      top: 85%;
+      transform: translate(-50%, -50%);
+    }
+
+    to {
+      opacity: 1;
+      left: 8%;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+/* ==========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-first-slide.active,
+  .hero-text-left,
+  .hero-text-fade,
+  .hero-text-bottom-left {
+    animation: none;
+  }
+
+  .hero-slide {
+    transition: none;
+  }
+}

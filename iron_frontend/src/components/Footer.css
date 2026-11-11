@@ -1,0 +1,343 @@
+
+/* ======================================
+   IRON ME·KA FOOTER
+====================================== */
+
+.iron-footer {
+  width: 100%;
+  background: #272323;
+  color: #bdb6b6;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* MAIN FOOTER */
+
+.footer-container {
+  width: 88%;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr 1fr;
+  gap: 65px;
+
+  padding: 70px 0 60px;
+}
+
+/* BRAND */
+
+.footer-brand {
+  min-width: 0;
+}
+
+.footer-logo-link {
+  display: inline-block;
+}
+
+.footer-logo {
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.footer-brand p {
+  color: #bdb6b6;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 15px 0 25px;
+  max-width: 300px;
+}
+
+/* SOCIAL ICONS */
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-socials a {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(212, 173, 96, 0.45);
+  border-radius: 50%;
+
+  color: #d4ad60;
+  text-decoration: none;
+
+  transition: 0.3s ease;
+}
+
+.footer-socials a:hover {
+  background: #d4ad60;
+  color: #272323;
+}
+
+/* FOOTER COLUMNS */
+
+.footer-column {
+  min-width: 0;
+}
+
+.footer-column h3 {
+  color: #d4ad60;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 400;
+  margin: 0 0 25px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 15px;
+}
+
+.footer-column a {
+  color: #bdb6b6;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #d4ad60;
+}
+
+/* CONTACT */
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.footer-contact h3 {
+  margin-bottom: 10px;
+}
+
+.footer-contact p {
+  color: #bdb6b6;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* COPYRIGHT */
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  padding: 25px 15px;
+}
+
+.footer-bottom p {
+  color: #a9a2a2;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ======================================
+   LAPTOP
+====================================== */
+
+@media (max-width: 1200px) {
+  .footer-container {
+    width: 90%;
+    gap: 35px;
+  }
+
+  .footer-column h3 {
+    font-size: 21px;
+  }
+}
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 45px;
+    padding: 60px 0;
+  }
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 600px) {
+  .footer-container {
+    width: 88%;
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 50px 0;
+  }
+
+  .footer-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .footer-brand p {
+    font-size: 14px;
+  }
+
+  .footer-column h3 {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+
+  .footer-column a,
+  .footer-contact p {
+    font-size: 14px;
+  }
+
+  .footer-column li {
+    margin-bottom: 12px;
+  }
+
+  .footer-bottom {
+    padding: 20px 10px;
+  }
+
+  .footer-bottom p {
+    font-size: 12px;
+  }
+}
+
+/* =====================================
+   COMPACT FOOTER DESIGN
+===================================== */
+
+.iron-footer {
+  font-size: 13px;
+}
+
+/* Reduce footer height and spacing */
+.footer-container {
+  width: 86%;
+  max-width: 1350px;
+  gap: 35px;
+  padding: 45px 0 40px;
+}
+
+/* Smaller round logo */
+.footer-logo {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Smaller brand description */
+.footer-brand p {
+  font-size: 12px;
+  line-height: 1.6;
+  max-width: 250px;
+  margin: 12px 0 18px;
+}
+
+/* Smaller column headings */
+.footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+/* Smaller links */
+.footer-column a {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.footer-column li {
+  margin-bottom: 10px;
+}
+
+/* Smaller contact text */
+.footer-contact p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.footer-contact {
+  gap: 10px;
+}
+
+/* Smaller social icons */
+.footer-socials {
+  gap: 10px;
+}
+
+.footer-socials a {
+  width: 34px;
+  height: 34px;
+}
+
+.footer-socials svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Smaller copyright text */
+.footer-bottom {
+  padding: 17px 10px;
+}
+
+.footer-bottom p {
+  font-size: 11px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .footer-container {
+    width: 88%;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 35px 0;
+  }
+
+  .footer-logo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .footer-column h3 {
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .footer-column a,
+  .footer-contact p,
+  .footer-brand p {
+    font-size: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 10px;
+  }
+}
