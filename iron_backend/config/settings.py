@@ -238,7 +238,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://iron-meka.vercel.app",
-    "https://iron-meka-asyi8irjg-angels-projects-617496da.vercel.app",
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://iron-meka-[a-z0-9-]+\.vercel\.app$",
 ]
 
 
