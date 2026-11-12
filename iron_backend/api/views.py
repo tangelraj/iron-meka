@@ -1,5 +1,6 @@
 
 from django.http import JsonResponse
+from .models import ContactSettings
 
 from .models import (
     WebsiteSettings,
@@ -340,4 +341,21 @@ def testimonials_api(request):
             }
             for item in testimonials
         ],
+    })
+def contact_api(request):
+    settings = ContactSettings.objects.first()
+
+    return JsonResponse({
+        "phone": settings.phone if settings else "",
+        "whatsapp_number": (
+            settings.whatsapp_number if settings else ""
+        ),
+        "whatsapp_message": (
+            settings.whatsapp_message if settings else ""
+        ),
+        "email": settings.email if settings else "",
+        "address": settings.address if settings else "",
+        "business_hours": (
+            settings.business_hours if settings else ""
+        ),
     })

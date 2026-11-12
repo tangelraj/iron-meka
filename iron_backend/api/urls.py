@@ -9,4 +9,5 @@ urlpatterns = [
     path("why-choose-us/", views.why_choose_us_api, name="why-choose-us"),
     path("how-it-works/", views.how_it_works_api, name="how-it-works"),
     path("testimonials/", views.testimonials_api, name="testimonials"),
+    path("contact/", views.contact_api, name="contact"),
 ]

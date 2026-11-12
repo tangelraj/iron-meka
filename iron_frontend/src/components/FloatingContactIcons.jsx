@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from "react";
 import {
   FaPhoneAlt,
@@ -15,8 +14,8 @@ function FloatingContactIcons() {
   const audioRef = useRef(null);
 
   // Replace these with your business details.
-  const phoneNumber = "YOUR_PHONE_NUMBER";
-  const emailAddress = "YOUR_EMAIL@example.com";
+  const phoneNumber = "8792694177";
+  const emailAddress = "tangelraj@gmail.com";
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
@@ -60,12 +59,12 @@ function FloatingContactIcons() {
       {/* RIGHT SIDE - CONTACT ICONS */}
       <div className="floating-contact-group">
         <a
-          href={`tel:${phoneNumber}`}
-          className="floating-contact-btn floating-call"
-          aria-label="Call us"
-          title="Call Us"
-        >
-          <FaPhoneAlt />
+            href={`tel:${phoneNumber}`}
+            className="floating-contact-btn floating-call"
+            aria-label="Call us"
+            title="Call Us"
+            >
+            <FaPhoneAlt />
         </a>
 
         <a
@@ -80,12 +79,14 @@ function FloatingContactIcons() {
         </a>
 
         <a
-          href={`mailto:${emailAddress}`}
-          className="floating-contact-btn floating-email"
-          aria-label="Email us"
-          title="Email Us"
-        >
-          <FaEnvelope />
+            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="floating-contact-btn floating-email"
+            aria-label="Email us"
+            title="Email Us"    
+            >
+            <FaEnvelope />
         </a>
       </div>
     </>

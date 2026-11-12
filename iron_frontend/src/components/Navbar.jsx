@@ -6,60 +6,47 @@ import "./Navbar.css";
 
 function Navbar() {
   const { t } = useTranslation();
-  console.log("Navbar language:", t("home"));
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Keep translated links inside the component
   const navLinks = [
     { label: t("home"), href: "#home" },
     { label: t("about"), href: "#about" },
     { label: t("services"), href: "#services" },
-    {
-      label: t("whyChoose"),
-      href: "#why-choose-us",
-    },
-    { label: t("reviews"), href: "#reviews" },
+    { label: t("why Choose Us"), href: "#why-choose-us" },
+    { label: t("Reviews"), href: "#reviews" },
     { label: t("contact"), href: "#contact" },
   ];
 
   return (
     <header className="navbar">
       <div className="navbar-container">
-
-        {/* Website Logo */}
+        {/* Logo */}
         <a
           href="#home"
           className="navbar-logo"
           onClick={closeMenu}
         >
-          <img
-            src="/logo.png"
-            alt="Iron Me·Ka Logo"
-          />
+          <img src="/logo.png" alt="Iron Me·Ka Logo" />
         </a>
 
-        {/* Navigation Links */}
+        {/* Navigation */}
         <nav
-          className={
-            menuOpen
-              ? "nav-menu active"
-              : "nav-menu"
-          }
+          className={`nav-menu ${menuOpen ? "active" : ""}`}
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
+          {navLinks.map((link, index) => (
             <a
               key={link.href}
               href={link.href}
+              className={index === 0 ? "nav-link-active" : ""}
               onClick={closeMenu}
-            >
+              >
               {link.label}
             </a>
           ))}
 
-          {/* Mobile Booking Button */}
           <a
             href="#booking"
             className="mobile-book-btn"
@@ -69,35 +56,25 @@ function Navbar() {
           </a>
         </nav>
 
-        {/* Right Side: Booking + Language */}
+        {/* Booking and Language */}
         <div className="navbar-actions">
-
-          <a
-            href="#booking"
-            className="book-btn"
-          >
-            {t("book")}
+          <a href="#booking" className="book-btn">
+            {t("Book a Service")}
           </a>
 
           <LanguageSelector />
-
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu */}
         <button
-          className="menu-toggle"
           type="button"
-          aria-label={
-            menuOpen
-              ? "Close navigation"
-              : "Open navigation"
-          }
+          className="menu-toggle"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? "✕" : "☰"}
         </button>
-
       </div>
     </header>
   );

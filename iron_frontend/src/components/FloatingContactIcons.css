@@ -177,3 +177,13 @@
     font-size: 15px;
   }
 }
+.floating-contact-group {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: auto;
+}
+
+.floating-contact-btn {
+  pointer-events: auto;
+  cursor: pointer;
+}

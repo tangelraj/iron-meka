@@ -381,9 +381,9 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    height: 650px;
-    min-height: 600px;
-  }
+    position: relative;
+    overflow: hidden;
+}
 
   .hero-slide {
     background-position: center;
