@@ -7,11 +7,17 @@ const API_URL = (
   "http://127.0.0.1:8000"
 ).replace(/\/$/, "");
 
-// Original slides used if the API is unavailable
+// Background images stored in React public folder
+const heroImages = [
+  "/hero1.png",
+  "/hero2.png",
+  "/hero3.png",
+];
+
+// Original fallback slides
 const fallbackSlides = [
   {
     id: 1,
-    image: "/hero1.png",
     eyebrow: "SAREE CARE",
     title: "Expert Care for Every Fabric",
     description:
@@ -24,7 +30,6 @@ const fallbackSlides = [
   },
   {
     id: 2,
-    image: "/hero2.png",
     eyebrow: "PROFESSIONAL IRONING",
     title: "Expert Care for Every Fabric",
     description:
@@ -37,7 +42,6 @@ const fallbackSlides = [
   },
   {
     id: 3,
-    image: "/hero3.png",
     eyebrow: "NEATLY FINISHED",
     title: "Expert Care for Every Fabric",
     description:
@@ -60,15 +64,16 @@ function HeroSection() {
   const [slides, setSlides] = useState(fallbackSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Load Hero slides from Django Admin
+  // Fetch Hero content from Django Admin
   useEffect(() => {
     const controller = new AbortController();
 
-    async function loadSlides() {
+    const fetchHeroSlides = async () => {
       try {
         const response = await fetch(
           `${API_URL}/api/hero-slides/`,
           {
+            method: "GET",
             cache: "no-store",
             signal: controller.signal,
           }
@@ -76,38 +81,46 @@ function HeroSection() {
 
         if (!response.ok) {
           throw new Error(
-            `Hero API returned ${response.status}`
+            `Hero API error: ${response.status}`
           );
         }
 
         const data = await response.json();
 
-        if (Array.isArray(data.slides)) {
-          setSlides(data.slides);
+        // Expected response: { slides: [...] }
+        const apiSlides = Array.isArray(data)
+          ? data
+          : data.slides;
+
+        if (
+          Array.isArray(apiSlides) &&
+          apiSlides.length > 0
+        ) {
+          setSlides(apiSlides);
           setCurrentSlide(0);
         }
       } catch (error) {
         if (error.name !== "AbortError") {
           console.error(
-            "Unable to load Hero slides:",
+            "Failed to load Hero slides:",
             error
           );
         }
       }
-    }
+    };
 
-    loadSlides();
+    fetchHeroSlides();
 
     return () => controller.abort();
   }, []);
 
-  // Automatically change slides every 5 seconds
+  // Automatic slide change every 5 seconds
   useEffect(() => {
     if (slides.length <= 1) return;
 
     const timer = setInterval(() => {
       setCurrentSlide(
-        (previous) => (previous + 1) % slides.length
+        (prev) => (prev + 1) % slides.length
       );
     }, 5000);
 
@@ -115,51 +128,41 @@ function HeroSection() {
   }, [slides.length]);
 
   const nextSlide = () => {
-    if (slides.length === 0) return;
-
     setCurrentSlide(
-      (previous) => (previous + 1) % slides.length
+      (prev) => (prev + 1) % slides.length
     );
   };
 
   const prevSlide = () => {
-    if (slides.length === 0) return;
-
     setCurrentSlide(
-      (previous) =>
-        (previous - 1 + slides.length) % slides.length
+      (prev) =>
+        (prev - 1 + slides.length) % slides.length
     );
   };
 
-  const getSlideImage = (slide, index) => {
-    if (!slide.image) {
-      return `/hero${index + 1}.png`;
-    }
-
-    if (
-      slide.image.startsWith("https://") ||
-      slide.image.startsWith("http://")
-    ) {
-      return slide.image;
-    }
-
-    if (slide.image.startsWith("/media/")) {
-      return `${API_URL}${slide.image}`;
-    }
-
-    return slide.image;
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
   };
 
-  // Prevent errors if no active slides exist
+  // Use local images to avoid broken Render media URLs
+  const getSlideImage = (index) => {
+    return heroImages[index % heroImages.length];
+  };
+
   if (slides.length === 0) {
     return null;
   }
 
-  const activeSlide = slides[currentSlide] || slides[0];
+  const activeSlide =
+    slides[currentSlide] || slides[0];
 
   const animationClass =
     animationClasses[activeSlide.animation] ||
-    "hero-text-left";
+    animationClasses[
+      fallbackSlides[
+        currentSlide % fallbackSlides.length
+      ].animation
+    ];
 
   return (
     <section className="hero-section" id="home">
@@ -170,41 +173,56 @@ function HeroSection() {
           key={slide.id ?? index}
           className={`hero-slide ${
             index === currentSlide ? "active" : ""
-          } ${index === 0 ? "hero-first-slide" : ""}`}
+          } ${
+            index === 0 ? "hero-first-slide" : ""
+          }`}
           style={{
             backgroundImage: `url("${getSlideImage(
-              slide,
               index
             )}")`,
           }}
         />
       ))}
 
+      {/* Dark Overlay */}
       <div className="hero-overlay"></div>
 
-      {/* Animated Text */}
+      {/* Hero Text */}
       <div
         key={`${activeSlide.id ?? currentSlide}-${currentSlide}`}
         className={`hero-content ${animationClass}`}
       >
+
         <p className="hero-eyebrow">
-          {activeSlide.eyebrow}
+          {activeSlide.eyebrow ||
+            fallbackSlides[
+              currentSlide % fallbackSlides.length
+            ].eyebrow}
         </p>
 
         <h1>
-          {activeSlide.title || activeSlide.heading}
+          {activeSlide.title ||
+            activeSlide.heading ||
+            "Expert Care for Every Fabric"}
         </h1>
 
         <p className="hero-description">
-          {activeSlide.description}
+          {activeSlide.description ||
+            fallbackSlides[0].description}
         </p>
 
+        {/* Hero Buttons */}
         <div className="hero-buttons">
+
           <a
-            href={activeSlide.button_url || "#booking"}
+            href={
+              activeSlide.button_url ||
+              "#booking"
+            }
             className="hero-book-btn"
           >
-            {activeSlide.button_text || "Book a Service"}
+            {activeSlide.button_text ||
+              "Book a Service"}
           </a>
 
           <a
@@ -217,6 +235,7 @@ function HeroSection() {
             {activeSlide.secondary_button_text ||
               "View Services"}
           </a>
+
         </div>
       </div>
 
@@ -251,9 +270,11 @@ function HeroSection() {
               key={slide.id ?? index}
               type="button"
               className={`hero-dot ${
-                index === currentSlide ? "active" : ""
+                index === currentSlide
+                  ? "active"
+                  : ""
               }`}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
