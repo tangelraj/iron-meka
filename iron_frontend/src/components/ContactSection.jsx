@@ -93,14 +93,8 @@ function ContactSection() {
 
             <div className="contact-info-text">
               <span>WHATSAPP</span>
-                <a
-                    href={`whatsapp://send?phone=918792694177&text=${encodeURIComponent(
-                        "Hello Iron Me·Ka, I would like to book your saree and fabric care service."
-                    )}`}
-                    className="contact-whatsapp-btn"
-                >  
-                  <MessageCircle size={18} />
-                    WhatsApp Us
+                <a href="tel:+918792694177">
+                   +91 8792694177
                 </a>
             </div>
           </div>

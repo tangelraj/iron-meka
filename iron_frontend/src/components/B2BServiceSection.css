@@ -1,0 +1,419 @@
+
+/* =========================================
+   IRON ME·KA — B2B SERVICES SECTION
+========================================= */
+
+.b2b-section {
+  width: 100%;
+  padding: 40px 3.2%;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Large cream background */
+.b2b-container {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 80px 4.5%;
+
+  background: #f9f3e9;
+  border-radius: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 5%;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   LEFT SERVICE CARDS
+========================================= */
+
+.b2b-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.b2b-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+
+  width: 100%;
+  min-height: 165px;
+  padding: 26px 28px;
+
+  background: #ffffff;
+  border: 1px solid #eee1ce;
+  border-radius: 24px;
+  box-sizing: border-box;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.b2b-card:hover {
+  transform: translateY(-6px);
+  border-color: #d6b574;
+  box-shadow: 0 14px 30px rgba(121, 32, 62, 0.1);
+}
+
+/* Maroon circle with gold icon */
+.b2b-card-icon {
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #79203e;
+  color: #d5a34e;
+
+  transition: transform 0.35s ease;
+}
+
+.b2b-card-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.b2b-card:hover .b2b-card-icon {
+  transform: scale(1.12);
+}
+
+.b2b-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.b2b-card-content h3 {
+  margin: 0 0 9px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #79203e;
+}
+
+.b2b-card-content p {
+  margin: 0;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #807775;
+}
+
+/* =========================================
+   RIGHT CONTENT
+========================================= */
+
+.b2b-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.b2b-eyebrow {
+  display: block;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #d0a34f;
+
+  margin-bottom: 30px;
+}
+
+.b2b-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 3.2vw, 58px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #79203e;
+
+  margin: 0 0 32px;
+}
+
+/* Gold divider */
+.b2b-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 34px;
+}
+
+.b2b-line {
+  width: 65px;
+  height: 2px;
+  background: #d0a34f;
+}
+
+.b2b-diamond {
+  width: 11px;
+  height: 11px;
+  background: #d0a34f;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* Descriptions */
+.b2b-description {
+  font-family: "Poppins", sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #807775;
+
+  margin: 0 0 24px;
+}
+
+.b2b-description strong {
+  color: #79203e;
+  font-weight: 600;
+}
+
+.b2b-last-paragraph {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   LAPTOP
+========================================= */
+
+@media (max-width: 1440px) {
+  .b2b-container {
+    padding: 65px 4%;
+    gap: 4%;
+  }
+
+  .b2b-card {
+    min-height: 145px;
+    padding: 22px;
+    gap: 17px;
+  }
+
+  .b2b-card-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+
+  .b2b-card-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .b2b-card-content h3 {
+    font-size: 22px;
+  }
+
+  .b2b-card-content p {
+    font-size: 15px;
+  }
+
+  .b2b-heading {
+    font-size: 44px;
+  }
+
+  .b2b-description {
+    font-size: 16px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .b2b-section {
+    padding: 30px 4%;
+  }
+
+  .b2b-container {
+    grid-template-columns: 1fr;
+    gap: 45px;
+    padding: 50px 6%;
+  }
+
+  .b2b-heading {
+    font-size: 42px;
+  }
+
+  .b2b-card-content p,
+  .b2b-description {
+    font-size: 16px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .b2b-section {
+    padding: 20px 12px;
+  }
+
+  .b2b-container {
+    padding: 35px 20px;
+    gap: 35px;
+    border-radius: 22px;
+  }
+
+  .b2b-cards {
+    gap: 15px;
+  }
+
+  .b2b-card {
+    padding: 18px 15px;
+    gap: 13px;
+    min-height: auto;
+    border-radius: 18px;
+  }
+
+  .b2b-card-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .b2b-card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .b2b-card-content h3 {
+    font-size: 20px;
+    margin-bottom: 7px;
+  }
+
+  .b2b-card-content p {
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .b2b-eyebrow {
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+  }
+
+  .b2b-heading {
+    font-size: 33px;
+    margin-bottom: 25px;
+  }
+
+  .b2b-divider {
+    margin-bottom: 25px;
+  }
+
+  .b2b-line {
+    width: 50px;
+  }
+
+  .b2b-description {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .b2b-card,
+  .b2b-card-icon {
+    transition: none;
+  }
+}
+
+/* =====================================
+   B2B SECTION - SMALLER FONT SIZES
+===================================== */
+
+/* FOR PROFESSIONALS label */
+.b2b-eyebrow {
+  font-size: 13px;
+  letter-spacing: 4px;
+}
+
+/* Main heading */
+.b2b-heading {
+  font-size: 38px;
+  line-height: 1.25;
+}
+
+/* Right-side description */
+.b2b-description {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Left-side card headings */
+.b2b-card-content h3 {
+  font-size: 20px;
+}
+
+/* Left-side card descriptions */
+.b2b-card-content p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .b2b-heading {
+    font-size: 32px;
+  }
+
+  .b2b-description {
+    font-size: 14px;
+  }
+
+  .b2b-card-content h3 {
+    font-size: 19px;
+  }
+
+  .b2b-card-content p {
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .b2b-eyebrow {
+    font-size: 11px;
+  }
+
+  .b2b-heading {
+    font-size: 28px;
+  }
+
+  .b2b-description {
+    font-size: 13px;
+  }
+
+  .b2b-card-content h3 {
+    font-size: 18px;
+  }
+
+  .b2b-card-content p {
+    font-size: 12px;
+  }
+}

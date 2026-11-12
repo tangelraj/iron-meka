@@ -1,0 +1,351 @@
+
+/* =========================================
+   IRON ME·KA — PREMIUM SAREE POLISH
+========================================= */
+
+.specialty-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 135px 5.7%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.specialty-container {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 6%;
+}
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.specialty-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.specialty-eyebrow {
+  display: block;
+  color: #d1a352;
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 34px;
+}
+
+.specialty-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 3.1vw, 60px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #79203e;
+  margin: 0 0 35px;
+}
+
+/* Gold divider */
+
+.specialty-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 38px;
+}
+
+.specialty-line {
+  width: 73px;
+  height: 2px;
+  background: #d0a34f;
+}
+
+.specialty-diamond {
+  width: 12px;
+  height: 12px;
+  background: #d0a34f;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* Description */
+
+.specialty-description {
+  max-width: 880px;
+  color: #807775;
+  font-family: "Poppins", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.specialty-description strong {
+  color: #79203e;
+  font-weight: 600;
+}
+
+/* =========================================
+   RIGHT CARDS
+========================================= */
+
+.specialty-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.specialty-card {
+  width: 100%;
+  min-height: 185px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+
+  background: #fffcf8;
+  border: 1px solid #eee0ca;
+  border-radius: 27px;
+
+  padding: 30px 32px;
+  box-sizing: border-box;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.specialty-card:hover {
+  transform: translateY(-6px);
+  border-color: #d6b574;
+  box-shadow: 0 14px 35px rgba(121, 32, 62, 0.09);
+}
+
+/* Maroon circular icon */
+
+.specialty-card-icon {
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #79203e;
+  color: #d4a64e;
+
+  transition: transform 0.35s ease;
+}
+
+.specialty-card-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.specialty-card:hover .specialty-card-icon {
+  transform: scale(1.1);
+}
+
+/* Card text */
+
+.specialty-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.specialty-card-content h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #79203e;
+  font-size: 29px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+
+.specialty-card-content p {
+  color: #807775;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* =========================================
+   LAPTOP
+========================================= */
+
+@media (max-width: 1440px) {
+  .specialty-section {
+    padding: 100px 5%;
+  }
+
+  .specialty-container {
+    gap: 5%;
+  }
+
+  .specialty-heading {
+    font-size: 46px;
+  }
+
+  .specialty-description {
+    font-size: 17px;
+  }
+
+  .specialty-card {
+    padding: 25px;
+    min-height: 155px;
+    gap: 18px;
+  }
+
+  .specialty-card-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+
+  .specialty-card-icon svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .specialty-card-content h3 {
+    font-size: 24px;
+  }
+
+  .specialty-card-content p {
+    font-size: 16px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .specialty-section {
+    padding: 70px 6%;
+  }
+
+  .specialty-container {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .specialty-eyebrow {
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+
+  .specialty-heading {
+    font-size: 43px;
+    margin-bottom: 25px;
+  }
+
+  .specialty-description {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+
+  .specialty-card {
+    min-height: 145px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .specialty-section {
+    padding: 55px 20px;
+  }
+
+  .specialty-container {
+    gap: 30px;
+  }
+
+  .specialty-eyebrow {
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+  }
+
+  .specialty-heading {
+    font-size: 34px;
+    line-height: 1.2;
+    margin-bottom: 25px;
+  }
+
+  .specialty-divider {
+    margin-bottom: 25px;
+    gap: 10px;
+  }
+
+  .specialty-line {
+    width: 50px;
+  }
+
+  .specialty-diamond {
+    width: 9px;
+    height: 9px;
+  }
+
+  .specialty-description {
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .specialty-cards {
+    gap: 16px;
+  }
+
+  .specialty-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+    gap: 14px;
+    min-height: auto;
+  }
+
+  .specialty-card-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .specialty-card-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .specialty-card-content h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+
+  .specialty-card-content p {
+    font-size: 13px;
+    line-height: 1.75;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .specialty-card,
+  .specialty-card-icon {
+    transition: none;
+  }
+}

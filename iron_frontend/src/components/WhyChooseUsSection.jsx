@@ -1,175 +1,61 @@
 
-import React, { useEffect, useState } from "react";
-import {
-  ShieldCheck,
-  Flower2,
-  Feather,
-  Award,
-  Heart,
-  Sparkles,
-  CheckCircle,
-} from "lucide-react";
-
+import React from "react";
+import { Award, HeartHandshake, ShieldCheck } from "lucide-react";
 import "./WhyChooseUsSection.css";
 
-const API_BASE =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-
-// Match these names with icon_key in Django Admin.
-const iconMap = {
-  "shield-check": ShieldCheck,
-  shield: ShieldCheck,
-  flower2: Flower2,
-  flower: Flower2,
-  feather: Feather,
-  award: Award,
-  heart: Heart,
-  sparkles: Sparkles,
-  "check-circle": CheckCircle,
-};
-
-const defaultSection = {
-  eyebrow: "WHY CHOOSE US",
-  heading: "The Iron Me·Ka Difference",
-  description: "",
-};
-
-const defaultFeatures = [
+const reasons = [
   {
-    id: 1,
-    icon_key: "shield-check",
-    title: "Professional Fabric Care",
-    description: "Every fabric receives appropriate care.",
+    title: "Premium Quality Finish",
+    description:
+      'A "ready-to-wear" and "ready-to-dress" result thanks to our traditional ironing techniques.',
+    icon: Award,
   },
   {
-    id: 2,
-    icon_key: "flower2",
-    title: "Specialized Saree Care",
+    title: "Local Expertise",
     description:
-      "Dedicated finishing for sarees and traditional wear.",
+      "Your trusted local workshop, proud to serve the community and local economy of Pondicherry.",
+    icon: HeartHandshake,
   },
   {
-    id: 3,
-    icon_key: "feather",
-    title: "Delicate Fabric Handling",
+    title: "Reliable & Customized Care",
     description:
-      "Careful treatment for premium and delicate materials.",
-  },
-  {
-    id: 4,
-    icon_key: "award",
-    title: "Neat Premium Finish",
-    description:
-      "Consistent, clean and polished results.",
+      "Every item, from a delicate silk saree to a king-size bed set, is handled with the highest standards.",
+    icon: ShieldCheck,
   },
 ];
 
 function WhyChooseUsSection() {
-  const [section, setSection] = useState(defaultSection);
-  const [features, setFeatures] = useState(defaultFeatures);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function loadWhyChooseUs() {
-      try {
-        const response = await fetch(
-          `${API_BASE}/api/why-choose-us/`,
-          { signal: controller.signal }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Why Choose Us API error: ${response.status}`
-          );
-        }
-
-        const data = await response.json();
-
-        if (data.section) {
-          setSection({
-            eyebrow: data.section.eyebrow ?? "",
-            heading: data.section.heading ?? "",
-            description: data.section.description ?? "",
-          });
-        }
-
-        if (Array.isArray(data.items)) {
-          setFeatures(data.items);
-        }
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          console.error(
-            "Unable to load Why Choose Us content:",
-            error
-          );
-        }
-      }
-    }
-
-    loadWhyChooseUs();
-
-    return () => controller.abort();
-  }, []);
-
   return (
-    <section className="why-section" id="why-choose-us">
-      <div className="why-container">
+    <section className="why-iron-section" id="why-choose-us">
+      <div className="why-iron-container">
 
-        {/* Heading */}
-        <div className="why-heading">
-          <p className="why-eyebrow">
-            {section.eyebrow}
-          </p>
+        <div className="why-iron-header">
+          <span className="why-iron-eyebrow">
+            WHY CHOOSE US
+          </span>
 
-          <h2>{section.heading}</h2>
+          <h2 className="why-iron-heading">
+            Why Choose IRON Me.Ka?
+          </h2>
 
-          {section.description && (
-            <p className="why-description">
-              {section.description}
-            </p>
-          )}
-
-          <div className="why-decoration">
-            <span></span>
-            <i></i>
-            <span></span>
+          <div className="why-iron-divider" aria-hidden="true">
+            <span className="why-iron-line"></span>
+            <span className="why-iron-diamond"></span>
+            <span className="why-iron-line"></span>
           </div>
         </div>
 
-        {/* Feature Cards */}
-        <div className="why-grid">
-          {features.map((feature, index) => {
-            const Icon =
-              iconMap[
-                (feature.icon_key || "")
-                  .trim()
-                  .toLowerCase()
-              ] || ShieldCheck;
-
-            return (
-              <div
-                className="why-card"
-                key={feature.id ?? index}
-              >
-                <div className="why-icon-circle">
-                  {feature.image ? (
-                    <img
-                      src={feature.image}
-                      alt=""
-                      className="why-feature-image"
-                    />
-                  ) : (
-                    <Icon size={34} strokeWidth={1.8} />
-                  )}
-                </div>
-
-                <h3>{feature.title}</h3>
-
-                <p>{feature.description}</p>
+        <div className="why-iron-cards">
+          {reasons.map(({ title, description, icon: Icon }) => (
+            <div className="why-iron-card" key={title}>
+              <div className="why-iron-icon">
+                <Icon strokeWidth={1.7} />
               </div>
-            );
-          })}
+
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </div>
+          ))}
         </div>
 
       </div>

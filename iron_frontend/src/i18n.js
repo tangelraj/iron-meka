@@ -65,10 +65,10 @@ const savedLanguage = localStorage.getItem("ironMekaLanguage");
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: ["en", "ta", "fr"].includes(savedLanguage)
-    ? savedLanguage
-    : "en",
+  lng: localStorage.getItem("ironMekaLanguage") || "en",
+  supportedLngs: ["en", "ta", "fr"],
   fallbackLng: "en",
+  initImmediate: false,
   interpolation: {
     escapeValue: false,
   },

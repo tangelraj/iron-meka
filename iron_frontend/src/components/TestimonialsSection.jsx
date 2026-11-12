@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import "./TestimonialsSection.css";
 
-const API_BASE =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE = (
+  import.meta.env.VITE_API_URL ||
+  "http://127.0.0.1:8000"
+).replace(/\/+$/, "");
 
 const defaultSection = {
   eyebrow: "TESTIMONIALS",
@@ -12,10 +14,48 @@ const defaultSection = {
   description: "",
 };
 
+// Displayed when the API is unavailable or returns no reviews.
+// Remove these once you want to show only published admin reviews.
+const fallbackTestimonials = [
+  {
+    id: 1,
+    name: "Lakshmi T.",
+    rating: 5,
+    review:
+      "My Kanjivaram silks came back beautifully polished and rolled. They treat every saree like it's their own.",
+    initial: "L",
+  },
+  {
+    id: 2,
+    name: "Sasikumar.A",
+    rating: 5,
+    review:
+      "My wedding silk veshti has recovered its original luster after polishing. I weared for my family wedding, it was flawless. Crisp, shining and on time.",
+    initial: "S",
+  },
+  {
+    id: 3,
+    name: "Karthiga.C",
+    rating: 5,
+    review:
+      "Pre-pleating has saved me so much time before functions. Perfect pleats every single time!",
+    initial: "K",
+  },
+  {
+    id: 4,
+    name: "Ilayavarman.P",
+    rating: 5,
+    review:
+      "Gentle with delicate fabrics and very professional. My go-to for all traditional wear.",
+    initial: "I",
+  },
+];
+
 function TestimonialsSection() {
   const [section, setSection] = useState(defaultSection);
-  const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState(
+    fallbackTestimonials
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -35,19 +75,29 @@ function TestimonialsSection() {
 
         const data = await response.json();
 
-        if (data.section) {
+        if (data?.section) {
           setSection({
             eyebrow:
-              data.section.eyebrow || defaultSection.eyebrow,
+              data.section.eyebrow ||
+              defaultSection.eyebrow,
             heading:
-              data.section.heading || defaultSection.heading,
+              data.section.heading ||
+              defaultSection.heading,
             description:
               data.section.description || "",
           });
         }
 
-        if (Array.isArray(data.testimonials)) {
-          setTestimonials(data.testimonials);
+        const reviews = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.testimonials)
+          ? data.testimonials
+          : Array.isArray(data?.results)
+          ? data.results
+          : [];
+
+        if (!controller.signal.aborted && reviews.length > 0) {
+          setTestimonials(reviews);
         }
       } catch (error) {
         if (error.name !== "AbortError") {
@@ -55,10 +105,6 @@ function TestimonialsSection() {
             "Unable to load testimonials:",
             error
           );
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
         }
       }
     }
@@ -68,10 +114,17 @@ function TestimonialsSection() {
     return () => controller.abort();
   }, []);
 
-  // Hide the section when there are no published reviews.
-  if (!loading && testimonials.length === 0) {
-    return null;
-  }
+  const getAvatarUrl = (avatar) => {
+    if (!avatar || typeof avatar !== "string") {
+      return null;
+    }
+
+    try {
+      return new URL(avatar, `${API_BASE}/`).href;
+    } catch {
+      return null;
+    }
+  };
 
   return (
     <section
@@ -79,8 +132,6 @@ function TestimonialsSection() {
       id="reviews"
     >
       <div className="testimonials-container">
-
-        {/* Section Heading */}
         <div className="testimonials-heading">
           <p className="testimonials-eyebrow">
             {section.eyebrow}
@@ -94,41 +145,53 @@ function TestimonialsSection() {
             </p>
           )}
 
-          <div className="testimonials-decoration">
+          <div
+            className="testimonials-decoration"
+            aria-hidden="true"
+          >
             <span></span>
             <i></i>
             <span></span>
           </div>
         </div>
 
-        {/* Review Cards */}
         <div className="testimonials-grid">
-          {testimonials.map((testimonial) => {
+          {testimonials.map((testimonial, index) => {
             const rating = Math.min(
               5,
               Math.max(
                 0,
-                Number(testimonial.rating) || 0
+                Math.round(Number(testimonial.rating) || 0)
               )
+            );
+
+            const name =
+              testimonial.name || "Customer";
+
+            const avatarUrl = getAvatarUrl(
+              testimonial.avatar
             );
 
             return (
               <article
                 className="testimonial-card"
-                key={testimonial.id}
+                key={testimonial.id ?? index}
               >
-                {/* Gold Stars */}
                 <div
                   className="testimonial-stars"
                   aria-label={`${rating} out of 5 stars`}
                 >
                   {Array.from(
-                    { length: rating },
-                    (_, index) => (
+                    { length: 5 },
+                    (_, starIndex) => (
                       <Star
-                        key={index}
-                        size={20}
-                        fill="currentColor"
+                        key={starIndex}
+                        size={16}
+                        fill={
+                          starIndex < rating
+                            ? "currentColor"
+                            : "none"
+                        }
                         strokeWidth={1.5}
                         aria-hidden="true"
                       />
@@ -136,37 +199,33 @@ function TestimonialsSection() {
                   )}
                 </div>
 
-                {/* Review Text */}
                 <p className="testimonial-review">
-                  “{testimonial.review}”
+                  “{testimonial.review || ""}”
                 </p>
 
-                {/* Customer */}
                 <div className="testimonial-customer">
                   <div className="testimonial-avatar">
-                    {testimonial.avatar ? (
+                    {avatarUrl ? (
                       <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
+                        src={avatarUrl}
+                        alt={name}
                         className="testimonial-avatar-image"
                       />
                     ) : (
                       testimonial.initial ||
-                      testimonial.name?.charAt(0) ||
-                      "?"
+                      name.charAt(0).toUpperCase()
                     )}
                   </div>
 
                   <div className="testimonial-customer-info">
-                    <h3>{testimonial.name}</h3>
-                    <span>Customer review</span>
+                    <h3>{name}</h3>
+                    <span>Verified customer</span>
                   </div>
                 </div>
               </article>
             );
           })}
         </div>
-
       </div>
     </section>
   );

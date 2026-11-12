@@ -9,50 +9,68 @@ const languages = [
   { code: "fr", label: "Français" },
 ];
 
-export default function LanguageSelector() {
+function LanguageSelector() {
   const { i18n } = useTranslation();
+
   const [open, setOpen] = useState(false);
-  const containerRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  const currentLanguage =
+    i18n.resolvedLanguage || i18n.language || "en";
 
   const selected =
-    languages.find((lang) => lang.code === i18n.language) ||
+    languages.find((lang) => lang.code === currentLanguage) ||
     languages[0];
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
+    const handleClickOutside = (event) => {
       if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
       ) {
         setOpen(false);
       }
     };
 
-    document.addEventListener("pointerdown", handleOutsideClick);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener(
-        "pointerdown",
-        handleOutsideClick
+        "mousedown",
+        handleClickOutside
       );
     };
   }, []);
 
-  const changeLanguage = (code) => {
-    i18n.changeLanguage(code);
-    localStorage.setItem("ironMekaLanguage", code);
-    document.documentElement.lang = code;
-    setOpen(false);
+  useEffect(() => {
+    document.documentElement.lang = currentLanguage;
+  }, [currentLanguage]);
+
+  const changeLanguage = async (code) => {
+    try {
+      await i18n.changeLanguage(code);
+
+      localStorage.setItem("ironMekaLanguage", code);
+      document.documentElement.lang = code;
+
+      console.log("Selected language:", code);
+      console.log("Translated Home:", i18n.t("home"));
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Language change failed:", error);
+    }
   };
 
   return (
-    <div className="language-selector" ref={containerRef}>
+    <div className="language-selector" ref={dropdownRef}>
       <button
         type="button"
         className="language-toggle"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-haspopup="true"
+        aria-label="Select language"
       >
         <svg
           width="22"
@@ -68,8 +86,9 @@ export default function LanguageSelector() {
         </svg>
 
         <span>{selected.label}</span>
-        <span className={`language-chevron ${open ? "open" : ""}`}>
-          ⌄
+
+        <span className="language-chevron">
+          {open ? "⌃" : "⌄"}
         </span>
       </button>
 
@@ -85,6 +104,7 @@ export default function LanguageSelector() {
               onClick={() => changeLanguage(lang.code)}
             >
               <span>{lang.label}</span>
+
               {selected.code === lang.code && (
                 <span className="language-check">✓</span>
               )}
@@ -95,3 +115,5 @@ export default function LanguageSelector() {
     </div>
   );
 }
+
+export default LanguageSelector;

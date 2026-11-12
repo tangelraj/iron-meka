@@ -18,10 +18,7 @@ def hero_slides_api(request):
             "eyebrow": slide.eyebrow,
             "title": slide.heading,
             "description": slide.description,
-            "image": (
-                request.build_absolute_uri(slide.image.url)
-                if slide.image else ""
-            ),
+            "image": f"/hero{slide.display_order}.png",
             "button_text": slide.button_text,
             "button_url": slide.button_url,
             "secondary_button_text": slide.secondary_button_text,

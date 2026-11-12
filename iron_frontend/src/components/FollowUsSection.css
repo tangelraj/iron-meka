@@ -1,0 +1,400 @@
+
+/* =====================================
+   IRON ME.KA - FOLLOW US SECTION
+===================================== */
+
+.follow-us-section {
+  width: 100%;
+  padding: 75px 20px 105px;
+  background:
+    radial-gradient(
+      ellipse at 12% 20%,
+      #f1e3cb 0%,
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 90% 80%,
+      #f0e0df 0%,
+      transparent 50%
+    ),
+    #faf5ed;
+
+  box-sizing: border-box;
+}
+
+.follow-us-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* HEADING */
+
+.follow-us-heading {
+  text-align: center;
+  margin-bottom: 55px;
+}
+
+.follow-us-heading h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #741c3e;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.follow-us-divider {
+  width: 85px;
+  height: 2px;
+  margin: 25px auto 20px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #d2a653,
+    transparent
+  );
+}
+
+.follow-us-heading p {
+  font-family: "Poppins", Arial, sans-serif;
+  color: #77706e;
+  font-size: 19px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* SOCIAL CARDS */
+
+.follow-us-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 220px);
+  justify-content: center;
+  gap: 30px;
+}
+
+.follow-us-card {
+  min-height: 210px;
+  background: #fff;
+  border: 1px solid #eadfce;
+  border-radius: 28px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+
+  text-decoration: none;
+  box-sizing: border-box;
+
+  box-shadow: 0 15px 28px rgba(116, 28, 62, 0.07);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.follow-us-card:hover {
+  transform: translateY(-8px);
+  border-color: #d2a653;
+  box-shadow: 0 22px 40px rgba(116, 28, 62, 0.14);
+}
+
+.follow-us-card h3 {
+  color: #302b2a;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* CIRCULAR SOCIAL ICONS */
+
+.follow-us-icon {
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  font-size: 38px;
+
+  box-shadow: 0 12px 18px rgba(0, 0, 0, 0.13);
+
+  transition: transform 0.3s ease;
+}
+
+.follow-us-card:hover .follow-us-icon {
+  transform: scale(1.1);
+}
+
+/* INSTAGRAM */
+
+.follow-us-icon.instagram {
+  background: radial-gradient(
+    circle at 30% 105%,
+    #feda75 0%,
+    #fa7e1e 25%,
+    #d62976 55%,
+    #962fbf 75%,
+    #4f5bd5 100%
+  );
+}
+
+/* YOUTUBE */
+
+.follow-us-icon.youtube {
+  background: #ff0000;
+}
+
+/* WHATSAPP */
+
+.follow-us-icon.whatsapp {
+  background: #20cd63;
+}
+
+/* TELEGRAM */
+
+.follow-us-icon.telegram {
+  background: #229ed9;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+  .follow-us-section {
+    padding: 60px 20px 80px;
+  }
+
+  .follow-us-heading h2 {
+    font-size: 42px;
+  }
+
+  .follow-us-heading p {
+    font-size: 16px;
+  }
+
+  .follow-us-grid {
+    grid-template-columns: repeat(2, 220px);
+    gap: 22px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .follow-us-section {
+    padding: 45px 15px 60px;
+  }
+
+  .follow-us-heading {
+    margin-bottom: 35px;
+  }
+
+  .follow-us-heading h2 {
+    font-size: 34px;
+  }
+
+  .follow-us-heading p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .follow-us-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .follow-us-card {
+    min-height: 160px;
+    border-radius: 20px;
+    gap: 18px;
+  }
+
+  .follow-us-icon {
+    width: 65px;
+    height: 65px;
+    font-size: 27px;
+  }
+
+  .follow-us-card h3 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .follow-us-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .follow-us-card,
+  .follow-us-icon {
+    transition: none;
+  }
+}
+
+/* =====================================
+   COMPACT FOLLOW US SECTION
+===================================== */
+
+/* Reduce overall section height */
+.follow-us-section {
+  padding: 35px 15px 45px;
+}
+
+/* Smaller heading */
+.follow-us-heading {
+  margin-bottom: 30px;
+}
+
+.follow-us-heading h2 {
+  font-size: 32px;
+}
+
+.follow-us-divider {
+  width: 55px;
+  margin: 15px auto 12px;
+}
+
+.follow-us-heading p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Smaller social media cards */
+.follow-us-grid {
+  grid-template-columns: repeat(4, 160px);
+  gap: 18px;
+}
+
+.follow-us-card {
+  min-height: 145px;
+  padding: 15px 10px;
+  border-radius: 18px;
+  gap: 15px;
+  border-width: 1px;
+}
+
+/* Smaller circular icons */
+.follow-us-icon {
+  width: 65px;
+  height: 65px;
+  font-size: 27px;
+}
+
+/* Smaller card labels */
+.follow-us-card h3 {
+  font-size: 15px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .follow-us-grid {
+    grid-template-columns: repeat(2, 160px);
+    gap: 15px;
+  }
+
+  .follow-us-heading h2 {
+    font-size: 29px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .follow-us-section {
+    padding: 30px 12px 40px;
+  }
+
+  .follow-us-heading {
+    margin-bottom: 25px;
+  }
+
+  .follow-us-heading h2 {
+    font-size: 26px;
+  }
+
+  .follow-us-heading p {
+    font-size: 12px;
+  }
+
+  .follow-us-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .follow-us-card {
+    min-height: 125px;
+    padding: 12px 8px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+
+  .follow-us-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 21px;
+  }
+
+  .follow-us-card h3 {
+    font-size: 13px;
+  }
+}
+
+/* =====================================
+   SLOW UP AND DOWN FLOATING ANIMATION
+===================================== */
+
+.follow-us-icon {
+  animation: slowIconFloat 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Smooth up and down movement */
+@keyframes slowIconFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Different delays for wave effect */
+.follow-us-card:nth-child(1) .follow-us-icon {
+  animation-delay: 0s;
+}
+
+.follow-us-card:nth-child(2) .follow-us-icon {
+  animation-delay: 0.4s;
+}
+
+.follow-us-card:nth-child(3) .follow-us-icon {
+  animation-delay: 0.8s;
+}
+
+.follow-us-card:nth-child(4) .follow-us-icon {
+  animation-delay: 1.2s;
+}
+
+/* Keep animation running on hover */
+.follow-us-card:hover .follow-us-icon {
+  animation-play-state: running;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .follow-us-icon {
+    animation: none;
+  }
+}

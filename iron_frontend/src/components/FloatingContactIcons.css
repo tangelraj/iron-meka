@@ -1,0 +1,179 @@
+
+/* ==========================================
+   IRON ME.KA - FLOATING CONTACT ICONS
+========================================== */
+
+/* LEFT BOTTOM MUSIC BUTTON */
+
+.floating-music-btn {
+  position: fixed;
+  left: 25px;
+  bottom: 25px;
+  z-index: 9999;
+
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+
+  background: #d1a95d;
+  color: #741c3e;
+
+  border: 3px solid #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  cursor: pointer;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.3s ease;
+}
+
+/* RIGHT SIDE ICON GROUP */
+
+.floating-contact-group {
+  position: fixed;
+  right: 18px;
+  bottom: 25px;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* COMMON CIRCULAR BUTTON */
+
+.floating-contact-btn {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+
+  border: 3px solid #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+  color: #ffffff;
+  text-decoration: none;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.3s ease;
+}
+
+/* CALL */
+
+.floating-call {
+  background: #741c3e;
+}
+
+/* WHATSAPP */
+
+.floating-whatsapp {
+  background: #1ecf63;
+}
+
+/* EMAIL */
+
+.floating-email {
+  background: #d1a95d;
+  color: #262626;
+}
+
+/* HOVER EFFECT */
+
+.floating-contact-btn:hover,
+.floating-music-btn:hover {
+  transform: scale(1.1);
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .floating-music-btn {
+    width: 48px;
+    height: 48px;
+    left: 12px;
+    bottom: 15px;
+    font-size: 18px;
+    border-width: 2px;
+  }
+
+  .floating-contact-group {
+    right: 10px;
+    bottom: 15px;
+    gap: 10px;
+  }
+
+  .floating-contact-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 19px;
+    border-width: 2px;
+  }
+}
+
+/* =====================================
+   SMALL FLOATING CONTACT ICONS
+===================================== */
+
+/* Smaller music icon - bottom left */
+.floating-music-btn {
+  width: 45px;
+  height: 45px;
+  left: 15px;
+  bottom: 15px;
+  font-size: 17px;
+  border: 2px solid #ffffff;
+}
+
+/* Right-side icon positioning */
+.floating-contact-group {
+  right: 12px;
+  bottom: 15px;
+  gap: 10px;
+}
+
+/* Smaller call, WhatsApp and email icons */
+.floating-contact-btn {
+  width: 45px;
+  height: 45px;
+  font-size: 18px;
+  border: 2px solid #ffffff;
+}
+
+/* Gentle hover effect */
+.floating-contact-btn:hover,
+.floating-music-btn:hover {
+  transform: scale(1.08);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .floating-music-btn {
+    width: 38px;
+    height: 38px;
+    left: 10px;
+    bottom: 12px;
+    font-size: 14px;
+  }
+
+  .floating-contact-group {
+    right: 8px;
+    bottom: 12px;
+    gap: 8px;
+  }
+
+  .floating-contact-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
+}
