@@ -10,10 +10,12 @@ import HowItWorksSection from "./components/HowItWorksSection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import OfferBanner from "./components/OfferBanner";
 
 function App() {
   return (
     <>
+      <OfferBanner />
       <Navbar />
       <HeroSection />
       <AboutSection />

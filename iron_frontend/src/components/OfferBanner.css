@@ -1,0 +1,234 @@
+
+.opening-offer-banner {
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    100deg,
+    #79273d 0%,
+    #94364d 50%,
+    #78263c 100%
+  );
+
+  font-family: "Poppins", sans-serif;
+  border-top: 2px solid rgba(235, 182, 118, 0.3);
+  isolation: isolate;
+  z-index: 1001;
+}
+
+/* Moving orange light: 2s movement + 2s pause */
+.offer-running-light {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 195, 127, 0.08) 43%,
+    rgba(255, 200, 142, 0.38) 50%,
+    rgba(255, 195, 127, 0.08) 57%,
+    transparent 65%,
+    transparent 100%
+  );
+
+  transform: translateX(-120%);
+  animation: offerLightRun 4s linear infinite;
+}
+
+@keyframes offerLightRun {
+  0% {
+    transform: translateX(-120%);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(120%);
+    opacity: 1;
+  }
+
+  50.01%,
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+/* Content */
+.opening-offer-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* White and light-orange blinking badge */
+.opening-offer-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 7px 18px;
+  border-radius: 40px;
+  border: 3px solid #e7b87c;
+
+  background: #fffaf1;
+  color: #b97873;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  white-space: nowrap;
+
+  box-shadow: 0 0 12px rgba(255, 195, 132, 0.5);
+
+  animation: offerBadgeBlink 2s ease-in-out infinite;
+}
+
+@keyframes offerBadgeBlink {
+  0%, 100% {
+    background: #fffaf1;
+    border-color: #e7b87c;
+    box-shadow: 0 0 7px rgba(255, 198, 142, 0.35);
+  }
+
+  50% {
+    background: #ffe0b8;
+    border-color: #fff7e9;
+    box-shadow:
+      0 0 16px rgba(255, 196, 126, 0.75),
+      0 0 28px rgba(255, 184, 114, 0.3);
+  }
+}
+
+.offer-lightning {
+  font-size: 21px;
+  font-weight: 800;
+  color: #b97873;
+  line-height: 1;
+}
+
+/* Main offer text */
+.opening-offer-text {
+  color: #fff9f2;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Golden glowing particles */
+.offer-sparkles span {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffcf72;
+  box-shadow:
+    0 0 7px #ffcd74,
+    0 0 15px rgba(255, 195, 95, 0.6);
+
+  animation: sparkleGlow 2.5s ease-in-out infinite alternate;
+}
+
+.offer-sparkles span:nth-child(1) {
+  left: 6%;
+  top: 35%;
+}
+
+.offer-sparkles span:nth-child(2) {
+  left: 18%;
+  top: 65%;
+  animation-delay: 0.5s;
+}
+
+.offer-sparkles span:nth-child(3) {
+  left: 53%;
+  top: 80%;
+  animation-delay: 1s;
+}
+
+.offer-sparkles span:nth-child(4) {
+  left: 69%;
+  top: 30%;
+  animation-delay: 0.8s;
+}
+
+.offer-sparkles span:nth-child(5) {
+  right: 5%;
+  top: 35%;
+  animation-delay: 1.3s;
+}
+
+@keyframes sparkleGlow {
+  from {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .opening-offer-content {
+    gap: 12px;
+  }
+
+  .opening-offer-badge {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .opening-offer-text {
+    font-size: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .opening-offer-banner {
+    min-height: 70px;
+    padding: 10px;
+  }
+
+  .opening-offer-content {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .opening-offer-badge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .opening-offer-text {
+    font-size: 12px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offer-running-light,
+  .opening-offer-badge,
+  .offer-sparkles span {
+    animation: none;
+  }
+}

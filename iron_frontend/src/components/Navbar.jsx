@@ -1,65 +1,38 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "./LanguageSelector";
 
-const API_BASE = (
-  import.meta.env.VITE_API_URL ||
-  "http://127.0.0.1:8000"
-).replace(/\/$/, "");
-
-const defaultLinks = [
-  { id: 1, label: "Home", href: "#home", is_button: false },
-  { id: 2, label: "About Us", href: "#about", is_button: false },
-  { id: 3, label: "Services", href: "#services", is_button: false },
-  { id: 4, label: "Why Choose Us", href: "#why-choose-us", is_button: false },
-  { id: 5, label: "Reviews", href: "#reviews", is_button: false },
-  { id: 6, label: "Contact", href: "#contact", is_button: false },
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About Us", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Why Choose Us", href: "#why-choose-us" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "Contact", href: "#contact" },
+  { label: t("language"), href: "#language" },
 ];
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [links, setLinks] = useState(defaultLinks);
-  const [logo, setLogo] = useState("/logo.png");
-
-  useEffect(() => {
-    fetch(`${API_BASE}/api/navbar/`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Navbar API failed");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setLinks(Array.isArray(data.links) ? data.links : []);
-        if (data.logo) {
-          setLogo(
-            data.logo.startsWith("/")
-              ? `${API_BASE}${data.logo}`
-              : data.logo
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Navbar loading error:", error);
-      });
-  }, []);
 
   const closeMenu = () => setMenuOpen(false);
-  const normalLinks = links.filter((link) => !link.is_button);
-  const buttonLink = links.find((link) => link.is_button);
 
   return (
     <header className="navbar">
       <div className="navbar-container">
 
+        {/* Logo */}
         <a href="#home" className="navbar-logo">
-          <img src={logo} alt="Iron Me·Ka Logo" />
+          <img src="/logo.png" alt="Iron Me.Ka Logo" />
         </a>
 
+        {/* Navigation links */}
         <nav className={menuOpen ? "nav-menu active" : "nav-menu"}>
-          {normalLinks.map((link) => (
+          {navLinks.map((link) => (
             <a
-              key={link.id}
+              key={link.href}
               href={link.href}
               onClick={closeMenu}
             >
@@ -67,23 +40,21 @@ function Navbar() {
             </a>
           ))}
 
-          {buttonLink && (
-            <a
-              href={buttonLink.href}
-              className="mobile-book-btn"
-              onClick={closeMenu}
-            >
-              {buttonLink.label}
-            </a>
-          )}
+          <a
+            href="#booking"
+            className="mobile-book-btn"
+            onClick={closeMenu}
+          >
+            Book a Service
+          </a>
         </nav>
 
-        {buttonLink && (
-          <a href={buttonLink.href} className="book-btn">
-            {buttonLink.label}
-          </a>
-        )}
+        {/* Booking button */}
+        <a href="#booking" className="book-btn">
+          Book a Service
+        </a>
 
+        {/* Mobile menu button */}
         <button
           className="menu-toggle"
           type="button"
@@ -95,6 +66,13 @@ function Navbar() {
         </button>
 
       </div>
+      <div className="navbar-actions">
+        <a href="#booking" className="navbar-book-btn">
+          {t("book")}
+        </a>
+
+  <LanguageSelector />
+</div>
     </header>
   );
 }
