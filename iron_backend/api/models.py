@@ -284,9 +284,9 @@ class Service(models.Model):
     )
 
     icon_key = models.CharField(
-        max_length=100,
-        blank=True,
-        help_text="Example: shirt, sparkles, package"
+    max_length=100,
+    blank=True,
+    default=""
     )
 
     price = models.DecimalField(
