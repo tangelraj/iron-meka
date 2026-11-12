@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='service',
-            name='price',
+            name='icon_key',
             field=models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True),
         ),
         migrations.AlterField(
