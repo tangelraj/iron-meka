@@ -1,9 +1,35 @@
 
 from django.http import JsonResponse
-from .models import HeroSlide
-from .models import SectionContent, Service
-from .models import SectionContent, ContentItem
-from .models import SectionContent, Testimonial
+
+from .models import (
+    WebsiteSettings,
+    NavigationLink,
+    HeroSlide,
+    SectionContent,
+    ContentItem,
+    Service,
+    ServicesSectionSettings,
+    Testimonial,
+)
+
+
+# ---------------------------------
+# Helper: Generate image URLs
+# ---------------------------------
+
+def get_image_url(request, image_field, fallback=""):
+    if not image_field:
+        return fallback
+
+    try:
+        return request.build_absolute_uri(image_field.url)
+    except (ValueError, AttributeError):
+        return fallback
+
+
+# ---------------------------------
+# 1. HERO SLIDES API
+# ---------------------------------
 
 def hero_slides_api(request):
     slides = HeroSlide.objects.filter(
@@ -17,18 +43,29 @@ def hero_slides_api(request):
             "id": slide.id,
             "eyebrow": slide.eyebrow,
             "title": slide.heading,
+            "heading": slide.heading,
             "description": slide.description,
-            "image": f"/hero{slide.display_order}.png",
+            "image": get_image_url(
+                request,
+                slide.image,
+                f"/hero{slide.display_order}.png"
+            ),
             "button_text": slide.button_text,
             "button_url": slide.button_url,
             "secondary_button_text": slide.secondary_button_text,
             "secondary_button_url": slide.secondary_button_url,
             "animation": slide.animation,
+            "display_order": slide.display_order,
         })
 
-    return JsonResponse({"slides": data})
+    return JsonResponse({
+        "slides": data
+    })
 
-from .models import NavigationLink, WebsiteSettings
+
+# ---------------------------------
+# 2. NAVBAR API
+# ---------------------------------
 
 def navbar_api(request):
     links = NavigationLink.objects.filter(
@@ -38,9 +75,14 @@ def navbar_api(request):
     settings = WebsiteSettings.objects.first()
 
     return JsonResponse({
-        "logo": (
-            request.build_absolute_uri(settings.logo.url)
-            if settings and settings.logo else "/logo.png"
+        "logo": get_image_url(
+            request,
+            settings.logo if settings else None,
+            "/logo.png"
+        ),
+        "site_name": (
+            settings.site_name
+            if settings else "Iron Me·Ka"
         ),
         "links": [
             {
@@ -53,9 +95,10 @@ def navbar_api(request):
         ],
     })
 
-from django.http import JsonResponse
-from .models import SectionContent, ContentItem
 
+# ---------------------------------
+# 3. ABOUT API
+# ---------------------------------
 
 def about_api(request):
     section = SectionContent.objects.filter(
@@ -69,12 +112,18 @@ def about_api(request):
 
     return JsonResponse({
         "section": {
-            "eyebrow": section.eyebrow if section else "",
-            "heading": section.heading if section else "",
-            "description": section.description if section else "",
-            "image": (
-                request.build_absolute_uri(section.image.url)
-                if section and section.image else ""
+            "eyebrow": (
+                section.eyebrow if section else ""
+            ),
+            "heading": (
+                section.heading if section else ""
+            ),
+            "description": (
+                section.description if section else ""
+            ),
+            "image": get_image_url(
+                request,
+                section.image if section else None
             ),
         },
         "features": [
@@ -83,56 +132,80 @@ def about_api(request):
                 "title": item.title,
                 "description": item.description,
                 "icon_key": item.icon_key,
-                "image": (
-                    request.build_absolute_uri(item.image.url)
-                    if item.image else ""
+                "image": get_image_url(
+                    request,
+                    item.image
                 ),
             }
             for item in features
         ],
     })
+
+
+# ---------------------------------
+# 4. SERVICES API
+# ---------------------------------
+
 def services_api(request):
-    settings = ServicesSectionSettings.objects.first()
+    section_settings = (
+        ServicesSectionSettings.objects.first()
+    )
 
     services = Service.objects.filter(
         is_active=True
     ).order_by("display_order", "id")
 
-    data = {
+    services_data = []
+
+    for service in services:
+        services_data.append({
+            "id": service.id,
+            "name": service.name,
+            "description": service.description,
+            "image": get_image_url(
+                request,
+                service.image
+            ),
+            "icon_key": service.icon_key,
+            "price": (
+                str(service.price)
+                if service.price is not None
+                else None
+            ),
+            "display_order": service.display_order,
+            "is_active": service.is_active,
+        })
+
+    return JsonResponse({
         "section": {
             "eyebrow": (
-                settings.eyebrow
-                if settings else "OUR SERVICES"
+                section_settings.eyebrow
+                if section_settings
+                else "WHAT WE DO"
             ),
             "heading": (
-                settings.heading
-                if settings else "Our Services"
+                section_settings.heading
+                if section_settings
+                else "Our Fabric Care Services"
             ),
             "description": (
-                settings.description
-                if settings else ""
+                section_settings.description
+                if section_settings
+                else (
+                    "Specialized care and finishing "
+                    "for your everyday wear and "
+                    "traditional fabrics."
+                )
             ),
         },
-        "services": [
-            {
-                "id": service.id,
-                "name": service.name,
-                "description": service.description,
-                "image": (
-                    request.build_absolute_uri(service.image.url)
-                    if service.image else None
-                ),
-                "icon_key": service.icon_key,
-                "price": (
-                    str(service.price)
-                    if service.price is not None else None
-                ),
-            }
-            for service in services
-        ],
-    }
+        "services": services_data,
+    })
 
-    return JsonResponse(data)
+
+# ---------------------------------
+# 5. WHY CHOOSE US API
+# ---------------------------------
+
 def why_choose_us_api(request):
     section = SectionContent.objects.filter(
         section="why_choose_us"
@@ -145,18 +218,22 @@ def why_choose_us_api(request):
 
     return JsonResponse({
         "section": {
-            "eyebrow": section.eyebrow if section else "",
-            "heading": section.heading if section else "",
-            "description": section.description if section else "",
-            "image": (
-                request.build_absolute_uri(section.image.url)
-                if section and section.image else ""
+            "eyebrow": (
+                section.eyebrow if section else ""
             ),
-            "background_image": (
-                request.build_absolute_uri(
-                    section.background_image.url
-                )
-                if section and section.background_image else ""
+            "heading": (
+                section.heading if section else ""
+            ),
+            "description": (
+                section.description if section else ""
+            ),
+            "image": get_image_url(
+                request,
+                section.image if section else None
+            ),
+            "background_image": get_image_url(
+                request,
+                section.background_image if section else None
             ),
         },
         "items": [
@@ -165,14 +242,20 @@ def why_choose_us_api(request):
                 "title": item.title,
                 "description": item.description,
                 "icon_key": item.icon_key,
-                "image": (
-                    request.build_absolute_uri(item.image.url)
-                    if item.image else ""
+                "image": get_image_url(
+                    request,
+                    item.image
                 ),
             }
             for item in items
         ],
     })
+
+
+# ---------------------------------
+# 6. HOW IT WORKS API
+# ---------------------------------
+
 def how_it_works_api(request):
     section = SectionContent.objects.filter(
         section="how_it_works"
@@ -185,9 +268,15 @@ def how_it_works_api(request):
 
     return JsonResponse({
         "section": {
-            "eyebrow": section.eyebrow if section else "",
-            "heading": section.heading if section else "",
-            "description": section.description if section else "",
+            "eyebrow": (
+                section.eyebrow if section else ""
+            ),
+            "heading": (
+                section.heading if section else ""
+            ),
+            "description": (
+                section.description if section else ""
+            ),
         },
         "steps": [
             {
@@ -196,14 +285,22 @@ def how_it_works_api(request):
                 "title": step.title,
                 "description": step.description,
                 "icon_key": step.icon_key,
-                "image": (
-                    request.build_absolute_uri(step.image.url)
-                    if step.image else ""
+                "image": get_image_url(
+                    request,
+                    step.image
                 ),
             }
-            for index, step in enumerate(steps, start=1)
+            for index, step in enumerate(
+                steps, start=1
+            )
         ],
     })
+
+
+# ---------------------------------
+# 7. TESTIMONIALS API
+# ---------------------------------
+
 def testimonials_api(request):
     section = SectionContent.objects.filter(
         section="testimonials"
@@ -215,9 +312,15 @@ def testimonials_api(request):
 
     return JsonResponse({
         "section": {
-            "eyebrow": section.eyebrow if section else "",
-            "heading": section.heading if section else "",
-            "description": section.description if section else "",
+            "eyebrow": (
+                section.eyebrow if section else ""
+            ),
+            "heading": (
+                section.heading if section else ""
+            ),
+            "description": (
+                section.description if section else ""
+            ),
         },
         "testimonials": [
             {
@@ -225,13 +328,14 @@ def testimonials_api(request):
                 "name": item.customer_name,
                 "initial": (
                     item.customer_name[:1].upper()
-                    if item.customer_name else "?"
+                    if item.customer_name
+                    else "?"
                 ),
                 "review": item.review,
                 "rating": item.rating,
-                "avatar": (
-                    request.build_absolute_uri(item.avatar.url)
-                    if item.avatar else ""
+                "avatar": get_image_url(
+                    request,
+                    item.avatar
                 ),
             }
             for item in testimonials
