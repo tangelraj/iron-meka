@@ -160,34 +160,64 @@ class ContentItem(models.Model):
         return self.title
 
 
-class Service(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    image = models.ImageField(
-        upload_to="services/",
+class ServicesSectionSettings(models.Model):
+    eyebrow = models.CharField(
+        max_length=100,
+        default="OUR SERVICES"
+    )
+    heading = models.CharField(
+        max_length=200,
+        default="Our Services"
+    )
+    description = models.TextField(
         blank=True
     )
-    starting_price = models.DecimalField(
+
+    def __str__(self):
+        return self.heading
+
+    class Meta:
+        verbose_name = "Services Section Settings"
+        verbose_name_plural = "Services Section Settings"
+
+
+class Service(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    image = models.ImageField(
+        upload_to="services/",
+        blank=True,
+        null=True
+    )
+
+    icon_key = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: shirt, sparkles, package"
+    )
+
+    price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        blank=True,
+        null=True
+    )
+
+    display_order = models.PositiveIntegerField(
         default=0
     )
-    button_text = models.CharField(
-        max_length=100,
-        default="Book Now"
+
+    is_active = models.BooleanField(
+        default=True
     )
-    button_url = models.CharField(
-        max_length=255,
-        default="#contact"
-    )
-    display_order = models.PositiveIntegerField(default=0)
-    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ["display_order", "id"]
 
-    def __str__(self):
-        return self.name
 
 
 class Testimonial(models.Model):

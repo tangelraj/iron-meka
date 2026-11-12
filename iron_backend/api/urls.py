@@ -14,7 +14,7 @@ urlpatterns = [
         name="hero_slides_api"
     ),
     path("about/", views.about_api, name="about_api"),
-    path("services/", views.services_api, name="services_api"),
+    path("services/", views.services_api, name="services-api"),
     path(
     "why-choose-us/",
     views.why_choose_us_api,

@@ -92,22 +92,25 @@ def about_api(request):
         ],
     })
 def services_api(request):
-    section = SectionContent.objects.filter(
-        section="services"
-    ).first()
+    settings = ServicesSectionSettings.objects.first()
 
     services = Service.objects.filter(
         is_active=True
     ).order_by("display_order", "id")
 
-    return JsonResponse({
+    data = {
         "section": {
-            "eyebrow": section.eyebrow if section else "",
-            "heading": section.heading if section else "",
-            "description": section.description if section else "",
-            "image": (
-                request.build_absolute_uri(section.image.url)
-                if section and section.image else ""
+            "eyebrow": (
+                settings.eyebrow
+                if settings else "OUR SERVICES"
+            ),
+            "heading": (
+                settings.heading
+                if settings else "Our Services"
+            ),
+            "description": (
+                settings.description
+                if settings else ""
             ),
         },
         "services": [
@@ -117,18 +120,19 @@ def services_api(request):
                 "description": service.description,
                 "image": (
                     request.build_absolute_uri(service.image.url)
-                    if service.image else ""
+                    if service.image else None
                 ),
-                "starting_price": (
-                    str(service.starting_price)
-                    if service.starting_price is not None else ""
+                "icon_key": service.icon_key,
+                "price": (
+                    str(service.price)
+                    if service.price is not None else None
                 ),
-                "button_text": service.button_text,
-                "button_url": service.button_url,
             }
             for service in services
         ],
-    })
+    }
+
+    return JsonResponse(data)
 def why_choose_us_api(request):
     section = SectionContent.objects.filter(
         section="why_choose_us"

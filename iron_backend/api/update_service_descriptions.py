@@ -84,20 +84,32 @@ service_descriptions = {
     ),
 }
 
+created_count = 0
 updated_count = 0
 
-for service_name, description in service_descriptions.items():
-    updated = Service.objects.filter(
-        name=service_name
-    ).update(description=description)
+for index, (service_name, description) in enumerate(
+    service_descriptions.items(), start=1
+):
+    service, created = Service.objects.update_or_create(
+        name=service_name,
+        defaults={
+            "description": description,
+        },
+        create_defaults={
+            "description": description,
+            "display_order": index,
+            "is_active": True,
+        },
+    )
 
-    if updated:
-        print(f"Updated: {service_name}")
-        updated_count += updated
+    if created:
+        print(f"Created: {service_name}")
+        created_count += 1
     else:
-        print(f"Not found: {service_name}")
+        print(f"Updated: {service_name}")
+        updated_count += 1
 
-print(
-    f"\nSuccessfully updated {updated_count} "
-    "service descriptions."
-)
+print("\nService import completed!")
+print(f"Created: {created_count}")
+print(f"Updated: {updated_count}")
+print(f"Total processed: {created_count + updated_count}")

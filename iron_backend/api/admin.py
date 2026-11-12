@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import HeroSlide
 from django.contrib import admin
 from django.utils.html import format_html
-
+from .models import Service, ServicesSectionSettings
 
 
 from .models import (
@@ -192,29 +192,33 @@ class ContentItemAdmin(admin.ModelAdmin):
     search_fields = ("title", "description")
 
 
+@admin.register(ServicesSectionSettings)
+class ServicesSectionSettingsAdmin(admin.ModelAdmin):
+    list_display = ("heading",)
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        "price",
         "display_order",
         "is_active",
     )
-
-    list_display_links = ("name",)
 
     list_editable = (
         "display_order",
         "is_active",
     )
 
+    list_filter = ("is_active",)
+
     search_fields = (
         "name",
         "description",
     )
 
-    list_filter = ("is_active",)
-
-    ordering = ("display_order", "name")
+    ordering = ("display_order", "id")
 
 
 
