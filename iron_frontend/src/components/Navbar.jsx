@@ -14,8 +14,8 @@ function Navbar() {
     { label: t("home"), href: "#home" },
     { label: t("about"), href: "#about" },
     { label: t("services"), href: "#services" },
-    { label: t("why Choose Us"), href: "#why-choose-us" },
-    { label: t("Reviews"), href: "#reviews" },
+    { label: t("whyChoose"), href: "#why-choose-us" },
+    { label: t("reviews"), href: "#reviews" },
     { label: t("contact"), href: "#contact" },
   ];
 
@@ -59,7 +59,7 @@ function Navbar() {
         {/* Booking and Language */}
         <div className="navbar-actions">
           <a href="#booking" className="book-btn">
-            {t("Book a Service")}
+            {t("book")}
           </a>
 
           <LanguageSelector />

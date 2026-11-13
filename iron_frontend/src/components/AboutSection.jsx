@@ -1,6 +1,8 @@
 
 import React, { useEffect, useState } from "react";
 import "./AboutSection.css";
+import { useTranslation } from "react-i18next";
+import { getTranslatedText } from "../utils/getTranslatedText";
 
 const API_BASE =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
@@ -49,6 +51,14 @@ function FeatureIcon({ type }) {
 }
 
 function AboutSection() {
+  const { t, i18n } = useTranslation();
+
+  const language = (
+    i18n.resolvedLanguage ||
+    i18n.language ||
+    "en"
+  ).split("-")[0];
+
   const [section, setSection] = useState(defaultSection);
   const [features, setFeatures] = useState(defaultFeatures);
 
@@ -69,6 +79,7 @@ function AboutSection() {
 
         if (data.section) {
           setSection({
+            ...data.section,
             eyebrow: data.section.eyebrow ?? "",
             heading: data.section.heading ?? "",
             description: data.section.description ?? "",
@@ -91,6 +102,79 @@ function AboutSection() {
     return () => controller.abort();
   }, []);
 
+  // Translate text while preserving English Django content.
+  const translateSectionField = (field, translationKey) => {
+    const originalText = section[field] || "";
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    const translatedText = getTranslatedText(
+      section,
+      field,
+      language
+    );
+
+    if (translatedText !== originalText) {
+      return translatedText;
+    }
+
+    // Use existing i18n translations when Django
+    // does not provide Tamil/French fields.
+    return t(translationKey, {
+      defaultValue: originalText,
+    });
+  };
+
+  const aboutEyebrow = translateSectionField(
+    "eyebrow",
+    "aboutEyebrow"
+  );
+
+  const aboutHeading = translateSectionField(
+    "heading",
+    "aboutHeading"
+  );
+
+  const aboutDescription = translateSectionField(
+    "description",
+    "aboutDescription"
+  );
+
+  // Translate feature titles without changing icons.
+  const translateFeature = (feature) => {
+    const originalTitle = feature.title || "";
+
+    if (language === "en") {
+      return originalTitle;
+    }
+
+    const translatedTitle = getTranslatedText(
+      feature,
+      "title",
+      language
+    );
+
+    if (translatedTitle !== originalTitle) {
+      return translatedTitle;
+    }
+
+    const featureKeys = {
+      "Quality Finishing": "qualityFinishing",
+      "Gentle Fabric Care": "gentleCare",
+      "Professional Handling": "professionalHandling",
+    };
+
+    const translationKey = featureKeys[originalTitle];
+
+    return translationKey
+      ? t(translationKey, {
+          defaultValue: originalTitle,
+        })
+      : originalTitle;
+  };
+
   return (
     <section className="about-section" id="about">
       <div className="about-container">
@@ -107,8 +191,11 @@ function AboutSection() {
 
           <div className="about-experience">
             <span className="about-years">12+</span>
+
             <span className="about-years-label">
-              YEARS OF CARE
+              {t("yearsOfCare", {
+                defaultValue: "YEARS OF CARE",
+              })}
             </span>
           </div>
         </div>
@@ -116,12 +203,12 @@ function AboutSection() {
         {/* Right Content */}
         <div className="about-content">
           <p className="about-eyebrow">
-            {section.eyebrow}
+            {aboutEyebrow}
           </p>
 
-          <h2>{section.heading}</h2>
+          <h2>{aboutHeading}</h2>
 
-          {section.description
+          {aboutDescription
             .split(/\n\s*\n/)
             .filter(Boolean)
             .map((paragraph, index) => (
@@ -147,7 +234,7 @@ function AboutSection() {
                   <FeatureIcon type={feature.icon_key} />
                 )}
 
-                <span>{feature.title}</span>
+                <span>{translateFeature(feature)}</span>
               </div>
             ))}
           </div>

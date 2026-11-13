@@ -1,5 +1,7 @@
 
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { getTranslatedText } from "../utils/getTranslatedText";
 import "./HeroSection.css";
 
 const API_URL = (
@@ -61,6 +63,14 @@ const animationClasses = {
 };
 
 function HeroSection() {
+  const { t, i18n } = useTranslation();
+
+  const language = (
+    i18n.resolvedLanguage ||
+    i18n.language ||
+    "en"
+  ).split("-")[0];
+
   const [slides, setSlides] = useState(fallbackSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -149,6 +159,42 @@ function HeroSection() {
     return heroImages[index % heroImages.length];
   };
 
+  // Translate API fields when available.
+  // Preserve original English content otherwise.
+  const translateField = (
+    slide,
+    field,
+    fallbackText,
+    translationKey
+  ) => {
+    const originalText = slide?.[field] || fallbackText;
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    const translatedText = getTranslatedText(
+      slide,
+      field,
+      language
+    );
+
+    if (
+      translatedText &&
+      translatedText !== slide?.[field]
+    ) {
+      return translatedText;
+    }
+
+    if (translationKey) {
+      return t(translationKey, {
+        defaultValue: originalText,
+      });
+    }
+
+    return originalText;
+  };
+
   if (slides.length === 0) {
     return null;
   }
@@ -156,13 +202,70 @@ function HeroSection() {
   const activeSlide =
     slides[currentSlide] || slides[0];
 
+  const fallbackSlide =
+    fallbackSlides[currentSlide % fallbackSlides.length];
+
   const animationClass =
     animationClasses[activeSlide.animation] ||
-    animationClasses[
-      fallbackSlides[
-        currentSlide % fallbackSlides.length
-      ].animation
-    ];
+    animationClasses[fallbackSlide.animation];
+
+  const isDefaultTitle =
+    (activeSlide.title || activeSlide.heading) ===
+    "Expert Care for Every Fabric";
+
+  const isDefaultDescription =
+    activeSlide.description ===
+    fallbackSlides[0].description;
+
+  const eyebrowKeys = [
+    "heroEyebrow",
+    "heroEyebrow2",
+    "heroEyebrow3",
+  ];
+
+  const heroEyebrow = translateField(
+    activeSlide,
+    "eyebrow",
+    fallbackSlide.eyebrow,
+    activeSlide.eyebrow === fallbackSlide.eyebrow
+      ? eyebrowKeys[currentSlide % eyebrowKeys.length]
+      : null
+  );
+
+  const heroTitle = translateField(
+    activeSlide,
+    activeSlide.title ? "title" : "heading",
+    fallbackSlide.title,
+    isDefaultTitle ? "heroTitle" : null
+  );
+
+  const heroDescription = translateField(
+    activeSlide,
+    "description",
+    fallbackSlide.description,
+    isDefaultDescription ? "heroDescription" : null
+  );
+
+  const primaryButtonText = translateField(
+    activeSlide,
+    "button_text",
+    fallbackSlide.button_text,
+    (activeSlide.button_text || fallbackSlide.button_text) ===
+      "Book a Service"
+      ? "book"
+      : null
+  );
+
+  const secondaryButtonText = translateField(
+    activeSlide,
+    "secondary_button_text",
+    fallbackSlide.secondary_button_text,
+    (activeSlide.secondary_button_text ||
+      fallbackSlide.secondary_button_text) ===
+      "View Services"
+      ? "viewServices"
+      : null
+  );
 
   return (
     <section className="hero-section" id="home">
@@ -194,21 +297,15 @@ function HeroSection() {
       >
 
         <p className="hero-eyebrow">
-          {activeSlide.eyebrow ||
-            fallbackSlides[
-              currentSlide % fallbackSlides.length
-            ].eyebrow}
+          {heroEyebrow}
         </p>
 
         <h1>
-          {activeSlide.title ||
-            activeSlide.heading ||
-            "Expert Care for Every Fabric"}
+          {heroTitle}
         </h1>
 
         <p className="hero-description">
-          {activeSlide.description ||
-            fallbackSlides[0].description}
+          {heroDescription}
         </p>
 
         {/* Hero Buttons */}
@@ -221,8 +318,7 @@ function HeroSection() {
             }
             className="hero-book-btn"
           >
-            {activeSlide.button_text ||
-              "Book a Service"}
+            {primaryButtonText}
           </a>
 
           <a
@@ -232,8 +328,7 @@ function HeroSection() {
             }
             className="hero-view-btn"
           >
-            {activeSlide.secondary_button_text ||
-              "View Services"}
+            {secondaryButtonText}
           </a>
 
         </div>

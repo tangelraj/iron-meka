@@ -1,14 +1,19 @@
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 const quickLinks = [
-  { name: "Home", link: "#home" },
-  { name: "About Us", link: "#about" },
-  { name: "Services", link: "#services" },
-  { name: "Why Choose Us", link: "#why-choose-us" },
-  { name: "Reviews", link: "#reviews" },
-  { name: "Contact", link: "#contact" },
+  { name: "Home", link: "#home", key: "home" },
+  { name: "About Us", link: "#about", key: "about" },
+  { name: "Services", link: "#services", key: "services" },
+  {
+    name: "Why Choose Us",
+    link: "#why-choose-us",
+    key: "whyChoose",
+  },
+  { name: "Reviews", link: "#reviews", key: "reviews" },
+  { name: "Contact", link: "#contact", key: "contact" },
 ];
 
 const services = [
@@ -69,6 +74,18 @@ function SocialIcon({ type }) {
 }
 
 function Footer() {
+  const { t } = useTranslation();
+
+  const translatedServices = t("footerServiceNames", {
+    returnObjects: true,
+  });
+
+  const displayServices =
+    Array.isArray(translatedServices) &&
+    translatedServices.length === services.length
+      ? translatedServices
+      : services;
+
   return (
     <footer className="iron-footer">
       <div className="footer-container">
@@ -84,9 +101,10 @@ function Footer() {
           </a>
 
           <p>
-            Premium saree and fabric care — rolling,
-            pleating, polishing, starching and steaming,
-            done by hand with precision.
+            {t(
+              "footerDescription",
+              "Premium saree and fabric care — rolling, pleating, polishing, starching and steaming, done by hand with precision."
+            )}
           </p>
 
           <div className="footer-socials">
@@ -121,13 +139,15 @@ function Footer() {
 
         {/* QUICK LINKS */}
         <div className="footer-column">
-          <h3>Quick Links</h3>
+          <h3>
+            {t("quickLinks", "Quick Links")}
+          </h3>
 
           <ul>
             {quickLinks.map((item) => (
               <li key={item.name}>
                 <a href={item.link}>
-                  {item.name}
+                  {t(item.key, item.name)}
                 </a>
               </li>
             ))}
@@ -136,13 +156,15 @@ function Footer() {
 
         {/* SERVICES */}
         <div className="footer-column">
-          <h3>Services</h3>
+          <h3>
+            {t("footerServices", "Services")}
+          </h3>
 
           <ul>
-            {services.map((service) => (
+            {services.map((service, index) => (
               <li key={service}>
                 <a href="#services">
-                  {service}
+                  {displayServices[index] || service}
                 </a>
               </li>
             ))}
@@ -151,7 +173,9 @@ function Footer() {
 
         {/* CONTACT */}
         <div className="footer-column footer-contact">
-          <h3>Contact</h3>
+          <h3>
+            {t("footerContact", "Contact")}
+          </h3>
 
           <a href="tel:+919790263322">
             +91 9790263322
@@ -177,8 +201,8 @@ function Footer() {
       {/* COPYRIGHT */}
       <div className="footer-bottom">
         <p>
-          © {new Date().getFullYear()} Iron Me·Ka.
-          All rights reserved.
+          © {new Date().getFullYear()} Iron Me·Ka.{" "}
+          {t("allRightsReserved", "All rights reserved.")}
         </p>
       </div>
     </footer>

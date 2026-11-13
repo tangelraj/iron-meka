@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Phone,
   MessageCircle,
@@ -10,25 +11,16 @@ import {
 import "./ContactSection.css";
 
 const phoneNumber = "919790263322";
+const whatsappNumber = "918792694177";
 
 function ContactSection() {
+  const { t } = useTranslation();
+
   const whatsappMessage =
     "Hello Iron Me·Ka, I would like to book a fabric care service.";
 
   const whatsappLink =
-    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  const openWhatsApp = () => {
-  const phone = "918792694177";
-
-  const message =
-    "Hello Iron Me·Ka, I would like to book your saree and fabric care service.";
-
-  const encodedMessage = encodeURIComponent(message);
-
-  // Attempt to open the installed WhatsApp app
-  window.location.href =
-    `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
-};
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <section className="contact-section" id="contact">
@@ -37,17 +29,21 @@ function ContactSection() {
         {/* LEFT PANEL */}
         <div className="contact-left">
           <p className="contact-eyebrow">
-            BOOK TODAY
+            {t("contactEyebrow", "BOOK TODAY")}
           </p>
 
           <h2>
-            Give Your Clothes the Care They Deserve
+            {t(
+              "contactHeading",
+              "Give Your Clothes the Care They Deserve"
+            )}
           </h2>
 
           <p className="contact-description">
-            From everyday ironing to delicate saree and
-            traditional wear care, we make every piece
-            look its best.
+            {t(
+              "contactDescription",
+              "From everyday ironing to delicate saree and traditional wear care, we make every piece look its best."
+            )}
           </p>
 
           <div className="contact-buttons">
@@ -55,7 +51,7 @@ function ContactSection() {
               href="#booking"
               className="contact-book-btn"
             >
-              Book a Service
+              {t("book", "Book a Service")}
             </a>
 
             <a
@@ -65,7 +61,7 @@ function ContactSection() {
               className="contact-whatsapp-btn"
             >
               <MessageCircle size={19} />
-              WhatsApp Us
+              {t("whatsappUs", "WhatsApp Us")}
             </a>
           </div>
         </div>
@@ -79,8 +75,10 @@ function ContactSection() {
             </div>
 
             <div className="contact-info-text">
-              <span>PHONE</span>
-              <a href="tel:+919790263322">
+              <span>
+                {t("phoneLabel", "PHONE")}
+              </span>
+              <a href={`tel:+${phoneNumber}`}>
                 +91 9790263322
               </a>
             </div>
@@ -92,10 +90,16 @@ function ContactSection() {
             </div>
 
             <div className="contact-info-text">
-              <span>WHATSAPP</span>
-                <a href="tel:+918792694177">
-                   +91 8792694177
-                </a>
+              <span>
+                {t("whatsappLabel", "WHATSAPP")}
+              </span>
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 8792694177
+              </a>
             </div>
           </div>
 
@@ -105,7 +109,9 @@ function ContactSection() {
             </div>
 
             <div className="contact-info-text">
-              <span>ADDRESS</span>
+              <span>
+                {t("addressLabel", "ADDRESS")}
+              </span>
               <p>
                 6 Vincent de Paul street,
                 <br />
@@ -122,7 +128,9 @@ function ContactSection() {
             </div>
 
             <div className="contact-info-text">
-              <span>BUSINESS HOURS</span>
+              <span>
+                {t("hoursLabel", "BUSINESS HOURS")}
+              </span>
               <p>
                 Mon–Sat 9:00 AM – 8:00 PM
                 <br />

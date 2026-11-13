@@ -1,8 +1,11 @@
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./OfferBanner.css";
 
 const OfferBanner = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="opening-offer-banner">
       <div className="offer-running-light" aria-hidden="true" />
@@ -18,11 +21,14 @@ const OfferBanner = () => {
       <div className="opening-offer-content">
         <span className="opening-offer-badge">
           <span className="offer-lightning">ϟ</span>
-          SHOP OPENING OFFER
+          {t("openingOffer", "SHOP OPENING OFFER")}
         </span>
 
         <span className="opening-offer-text">
-          Get 10% OFF on your first saree polishing order
+          {t(
+            "openingOfferDescription",
+            "Get 10% OFF on your first saree polishing order"
+          )}
         </span>
       </div>
     </div>

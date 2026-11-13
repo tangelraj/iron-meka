@@ -1,0 +1,161 @@
+/* =====================================
+   EXTRA SMALL TAMIL FONT SIZES
+===================================== */
+
+/* Navbar */
+html[lang="ta"] .nav-menu a {
+  font-size: 11px;
+}
+
+html[lang="ta"] .book-btn,
+html[lang="ta"] .mobile-book-btn {
+  font-size: 11px;
+}
+
+html[lang="ta"] .language-toggle {
+  font-size: 12px;
+}
+
+/* Hero Section */
+html[lang="ta"] .hero-eyebrow {
+  font-size: 12px;
+}
+
+html[lang="ta"] .hero-content h1 {
+  font-size: clamp(24px, 3vw, 44px);
+  line-height: 1.4;
+}
+
+html[lang="ta"] .hero-description {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+html[lang="ta"] .hero-book-btn,
+html[lang="ta"] .hero-view-btn {
+  font-size: 11px;
+}
+
+/* Opening Offer */
+html[lang="ta"] .opening-offer-badge {
+  font-size: 10px;
+}
+
+html[lang="ta"] .opening-offer-text {
+  font-size: 12px;
+}
+
+/* About Section */
+html[lang="ta"] .about-content h2 {
+  font-size: clamp(20px, 2.5vw, 30px);
+  line-height: 1.4;
+}
+
+html[lang="ta"] .about-description {
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+html[lang="ta"] .about-feature-card {
+  font-size: 11px;
+}
+
+/* Services Section */
+html[lang="ta"] .services-heading h2 {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .services-subtitle {
+  font-size: 12px;
+}
+
+html[lang="ta"] .service-card h3 {
+  font-size: 14px;
+}
+
+html[lang="ta"] .service-description {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+html[lang="ta"] .service-book-btn {
+  font-size: 11px;
+}
+
+/* Why Choose Us */
+html[lang="ta"] .why-iron-heading {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .why-iron-card h3 {
+  font-size: 14px;
+}
+
+html[lang="ta"] .why-iron-card p {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Testimonials */
+html[lang="ta"] .testimonials-heading h2 {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .testimonial-review {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Contact Section */
+html[lang="ta"] .contact-left h2 {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .contact-description {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Footer */
+html[lang="ta"] .iron-footer {
+  font-size: 12px;
+}
+
+html[lang="ta"] .footer-column h3 {
+  font-size: 14px;
+}
+
+/* B2B Section */
+html[lang="ta"] .b2b-heading {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .b2b-description,
+html[lang="ta"] .b2b-card p {
+  font-size: 12px;
+}
+
+/* Specialty Section */
+html[lang="ta"] .specialty-heading {
+  font-size: clamp(20px, 2.5vw, 30px);
+}
+
+html[lang="ta"] .specialty-description,
+html[lang="ta"] .specialty-card p {
+  font-size: 12px;
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+  html[lang="ta"] .hero-content h1 {
+    font-size: 26px;
+  }
+
+  html[lang="ta"] .nav-menu a {
+    font-size: 13px;
+  }
+
+  html[lang="ta"] .hero-description {
+    font-size: 12px;
+  }
+}

@@ -1,6 +1,7 @@
 
 import React from "react";
 import { CircleCheck } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import "./B2BServiceSection.css";
 
 const services = [
@@ -22,21 +23,39 @@ const services = [
 ];
 
 function B2BServiceSection() {
+  const { t } = useTranslation();
+
+  const translatedServices = t("b2bServices", {
+    returnObjects: true,
+  });
+
+  const displayServices =
+    Array.isArray(translatedServices) &&
+    translatedServices.length === services.length
+      ? translatedServices
+      : services;
+
   return (
     <section className="b2b-section" id="b2b-services">
       <div className="b2b-container">
 
         {/* Left: Service cards */}
         <div className="b2b-cards">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <div className="b2b-card" key={service.title}>
               <div className="b2b-card-icon">
                 <CircleCheck strokeWidth={1.8} />
               </div>
 
               <div className="b2b-card-content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
+                <h3>
+                  {displayServices[index]?.title || service.title}
+                </h3>
+
+                <p>
+                  {displayServices[index]?.description ||
+                    service.description}
+                </p>
               </div>
             </div>
           ))}
@@ -45,11 +64,14 @@ function B2BServiceSection() {
         {/* Right: Heading and description */}
         <div className="b2b-content">
           <span className="b2b-eyebrow">
-            FOR PROFESSIONALS
+            {t("b2bEyebrow", "FOR PROFESSIONALS")}
           </span>
 
           <h2 className="b2b-heading">
-            Hotels, Guesthouses, and Airbnb (B2B Service)
+            {t(
+              "b2bHeading",
+              "Hotels, Guesthouses, and Airbnb (B2B Service)"
+            )}
           </h2>
 
           <div className="b2b-divider">
@@ -59,20 +81,23 @@ function B2BServiceSection() {
           </div>
 
           <p className="b2b-description">
-            Do you manage a tourist accommodation, a luxury
-            villa, or a short-term rental in Pondicherry?
-            Your guests' experience begins with flawless
-            bedding and household linen.
+            {t(
+              "b2bDescription",
+              "Do you manage a tourist accommodation, a luxury villa, or a short-term rental in Pondicherry? Your guests' experience begins with flawless bedding and household linen."
+            )}
           </p>
 
           <p className="b2b-description b2b-last-paragraph">
             IRON Me.Ka offers a{" "}
             <strong>
-              dedicated B2B ironing service for hotels,
-              guesthouses, and Airbnb concierge services.
+              {t(
+                "b2bServiceHighlight",
+                "dedicated B2B ironing service for hotels, guesthouses, and Airbnb concierge services."
+              )}
             </strong>
           </p>
         </div>
+
       </div>
     </section>
   );

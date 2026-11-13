@@ -365,3 +365,33 @@
     padding: 12px 20px;
   }
 }
+/* Prevent translated text from overflowing service cards */
+
+.service-card {
+  min-width: 0;
+}
+
+.service-card-content {
+  min-width: 0;
+}
+
+.service-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.service-price {
+  min-width: 0;
+}
+
+.service-book-btn {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+  flex-shrink: 1;
+}

@@ -1,5 +1,6 @@
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { CircleCheck } from "lucide-react";
 import "./SpecialtySection.css";
 
@@ -17,17 +18,29 @@ const specialtyItems = [
 ];
 
 function SpecialtySection() {
+  const { t } = useTranslation();
+
+  const translatedItems = t("specialtyItems", {
+    returnObjects: true,
+  });
+
+  const displayItems =
+    Array.isArray(translatedItems) &&
+    translatedItems.length === specialtyItems.length
+      ? translatedItems
+      : specialtyItems;
+
   return (
     <section className="specialty-section" id="specialty">
       <div className="specialty-container">
         {/* Left side */}
         <div className="specialty-content">
           <span className="specialty-eyebrow">
-            OUR SPECIALTY
+            {t("specialtyEyebrow", "OUR SPECIALTY")}
           </span>
 
           <h2 className="specialty-heading">
-            Premium Saree Polish
+            {t("specialtyHeading", "Premium Saree Polish")}
           </h2>
 
           <div className="specialty-divider">
@@ -37,26 +50,40 @@ function SpecialtySection() {
           </div>
 
           <p className="specialty-description">
-            The saree is an exceptional garment that requires
-            specific textile care. Our exclusive{" "}
-            <strong>Saree Polish service</strong> is designed to
-            revive the shine, color, and stiffness of your
-            traditional fabrics, whether they are woven from
-            silk, cotton, or blended materials.
+            {t(
+              "specialtyDescriptionBefore",
+              "The saree is an exceptional garment that requires specific textile care. Our exclusive "
+            )}
+            <strong>
+              {t(
+                "specialtyDescriptionHighlight",
+                "Saree Polish service"
+              )}
+            </strong>
+            {t(
+              "specialtyDescriptionAfter",
+              " is designed to revive the shine, color, and stiffness of your traditional fabrics, whether they are woven from silk, cotton, or blended materials."
+            )}
           </p>
         </div>
 
         {/* Right side */}
         <div className="specialty-cards">
-          {specialtyItems.map((item) => (
+          {specialtyItems.map((item, index) => (
             <div className="specialty-card" key={item.title}>
               <div className="specialty-card-icon">
                 <CircleCheck strokeWidth={1.8} />
               </div>
 
               <div className="specialty-card-content">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <h3>
+                  {displayItems[index]?.title || item.title}
+                </h3>
+
+                <p>
+                  {displayItems[index]?.description ||
+                    item.description}
+                </p>
               </div>
             </div>
           ))}

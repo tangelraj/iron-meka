@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./ServicesSection.css";
 
 // Django backend URL
@@ -8,27 +9,42 @@ const API_URL = (
   "http://127.0.0.1:8000"
 ).replace(/\/$/, "");
 
-// Existing images used when no image is uploaded in Django Admin
+// Original service images
 const defaultImages = {
   "Saree Rolling": "/Image_SareeRolling.png",
-  "Towel Ironing & Refreshing": "/Image_TowelIroningRefreshing.png",
+
+  "Towel Ironing & Refreshing":
+    "/Image_TowelIroningRefreshing.png",
+
   "Coat & Delicate Fabric Steam Refresh":
     "/Image_CoatDelicateFabricSteamRefresh.png",
+
   "Cotton Veshti Starching & Polishing":
     "/Image_CottonVeshtiStarchingPolishing.png",
-  "Silk Veshti Polishing": "/Image_SilkVeshtiPolishing.png",
+
+  "Silk Veshti Polishing":
+    "/Image_SilkVeshtiPolishing.png",
+
   "Bed Sheet & Cover Ironing":
     "/Image_BedSheetCoverIroning.png",
-  "Saree Pre-Pleating": "/Image_SareePre-Pleating.png",
-  "Saree Polishing": "/Image_SareePolishing.png",
+
+  "Saree Pre-Pleating":
+    "/Image_SareePre-Pleating.png",
+
+  "Saree Polishing":
+    "/Image_SareePolishing.png",
+
   "Cotton Saree Starching & Polishing":
     "/Image_CottonSareeStarchingPolishing.png",
+
   "Cotton Saree Care":
     "/Image_CottonSareeStarchingPolishing.png",
-  "Saree Folding": "/hero3.png",
+
+  "Saree Folding":
+    "/hero3.png",
 };
 
-// Original images in display order
+// Original fallback images
 const fallbackImages = [
   "/Image_SareeRolling.png",
   "/Image_TowelIroningRefreshing.png",
@@ -42,6 +58,7 @@ const fallbackImages = [
   "/hero3.png",
 ];
 
+// Original English section content
 const defaultSection = {
   eyebrow: "WHAT WE DO",
   heading: "Our Fabric Care Services",
@@ -50,11 +67,20 @@ const defaultSection = {
 };
 
 function ServicesSection() {
+  const { t, i18n } = useTranslation();
+
+  const language = (
+    i18n.resolvedLanguage ||
+    i18n.language ||
+    "en"
+  ).split("-")[0];
+
   const [services, setServices] = useState([]);
   const [section, setSection] = useState(defaultSection);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Fetch services from Django
   useEffect(() => {
     const controller = new AbortController();
 
@@ -81,27 +107,26 @@ function ServicesSection() {
         const data = await response.json();
 
         if (!Array.isArray(data.services)) {
-          throw new Error("Invalid services API response");
+          throw new Error(
+            "Invalid services API response"
+          );
         }
 
         setServices(data.services);
 
         if (data.section) {
           setSection({
-            eyebrow:
-              data.section.eyebrow ??
-              defaultSection.eyebrow,
-            heading:
-              data.section.heading ??
-              defaultSection.heading,
-            description:
-              data.section.description ??
-              defaultSection.description,
+            ...defaultSection,
+            ...data.section,
           });
         }
       } catch (err) {
         if (err.name !== "AbortError") {
-          console.error("Error loading services:", err);
+          console.error(
+            "Error loading services:",
+            err
+          );
+
           setError(
             "Unable to load services. Please try again later."
           );
@@ -118,6 +143,110 @@ function ServicesSection() {
     return () => controller.abort();
   }, []);
 
+  // Translate section heading and subheading
+  const translateSectionField = (
+    field,
+    translationKey
+  ) => {
+    const originalText = section[field] || "";
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    // First check Django translations
+    const backendTranslation =
+      section[`${field}_${language}`];
+
+    if (
+      typeof backendTranslation === "string" &&
+      backendTranslation.trim()
+    ) {
+      return backendTranslation;
+    }
+
+    // Translate original default content
+    if (originalText === defaultSection[field]) {
+      return t(translationKey, {
+        defaultValue: originalText,
+      });
+    }
+
+    // Preserve custom Django Admin content
+    return originalText;
+  };
+
+  // Translate individual service names and descriptions
+  const translateServiceField = (
+    service,
+    field
+  ) => {
+    const originalText = service[field] || "";
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    // Priority 1: Django Admin translation
+    const backendTranslation =
+      service[`${field}_${language}`];
+
+    if (
+      typeof backendTranslation === "string" &&
+      backendTranslation.trim()
+    ) {
+      return backendTranslation;
+    }
+
+    // Priority 2: Translation from i18n.js
+    const translationKey =
+      `serviceCards.${service.name}.${field}`;
+
+    // For descriptions, verify the original English
+    // content matches the translation source
+    if (field === "description") {
+      const storedEnglishDescription = t(
+        translationKey,
+        {
+          lng: "en",
+          defaultValue: "",
+        }
+      );
+
+      if (
+        !storedEnglishDescription ||
+        originalText.trim() !==
+          storedEnglishDescription.trim()
+      ) {
+        return originalText;
+      }
+    }
+
+    // If translation is missing, preserve English
+    return t(translationKey, {
+      defaultValue: originalText,
+    });
+  };
+
+  const sectionEyebrow =
+    translateSectionField(
+      "eyebrow",
+      "servicesEyebrow"
+    );
+
+  const sectionHeading =
+    translateSectionField(
+      "heading",
+      "servicesHeading"
+    );
+
+  const sectionDescription =
+    translateSectionField(
+      "description",
+      "servicesDescription"
+    );
+
+  // Booking navigation
   const handleBooking = () => {
     const bookingSection =
       document.getElementById("booking");
@@ -129,8 +258,8 @@ function ServicesSection() {
     }
   };
 
+  // Service image selection
   const getServiceImage = (service, index) => {
-    // Image uploaded through Django Admin
     if (service.image) {
       if (
         service.image.startsWith("http://") ||
@@ -146,26 +275,51 @@ function ServicesSection() {
       return service.image;
     }
 
-    // Original image based on service name
     if (defaultImages[service.name]) {
       return defaultImages[service.name];
     }
 
-    // Original image based on display order
     return fallbackImages[index] || "/hero3.png";
   };
 
+  // Image fallback
+  const handleImageError = (
+    event,
+    service,
+    index
+  ) => {
+    const fallback =
+      defaultImages[service.name] ||
+      fallbackImages[index] ||
+      "/hero3.png";
+
+    const fallbackURL = new URL(
+      fallback,
+      window.location.origin
+    ).href;
+
+    if (
+      event.currentTarget.src !== fallbackURL
+    ) {
+      event.currentTarget.src = fallback;
+    }
+  };
+
   return (
-    <section className="services-section" id="services">
+    <section
+      className="services-section"
+      id="services"
+    >
       <div className="services-container">
 
         {/* Section Heading */}
         <div className="services-heading">
+
           <p className="services-eyebrow">
-            {section.eyebrow}
+            {sectionEyebrow}
           </p>
 
-          <h2>{section.heading}</h2>
+          <h2>{sectionHeading}</h2>
 
           <div className="services-decoration">
             <span></span>
@@ -174,14 +328,18 @@ function ServicesSection() {
           </div>
 
           <p className="services-subtitle">
-            {section.description}
+            {sectionDescription}
           </p>
+
         </div>
 
-        {/* Loading Message */}
+        {/* Loading */}
         {loading && (
           <p style={{ textAlign: "center" }}>
-            Loading services...
+            {t(
+              "loadingServices",
+              "Loading services..."
+            )}
           </p>
         )}
 
@@ -191,92 +349,137 @@ function ServicesSection() {
             role="alert"
             style={{ textAlign: "center" }}
           >
-            {error}
+            {t(
+              "servicesError",
+              "Unable to load services. Please try again later."
+            )}
           </p>
         )}
 
         {/* Service Cards */}
         {!loading && !error && (
           <div className="services-grid">
+
             {services.map((service, index) => (
               <article
                 className="service-card"
-                key={service.id}
+                key={service.id ?? index}
               >
 
+                {/* Service Image */}
                 <div className="service-image-wrapper">
+
                   <img
-                    src={getServiceImage(service, index)}
-                    alt={service.name}
+                    src={getServiceImage(
+                      service,
+                      index
+                    )}
+                    alt={translateServiceField(
+                      service,
+                      "name"
+                    )}
                     className="service-image"
                     loading="lazy"
-                    onError={(event) => {
-                      const fallback =
-                        defaultImages[service.name] ||
-                        fallbackImages[index] ||
-                        "/hero3.png";
-
-                      if (
-                        event.currentTarget.src !==
-                        new URL(
-                          fallback,
-                          window.location.origin
-                        ).href
-                      ) {
-                        event.currentTarget.src = fallback;
-                      }
-                    }}
+                    onError={(event) =>
+                      handleImageError(
+                        event,
+                        service,
+                        index
+                      )
+                    }
                   />
 
                   <span className="service-number">
-                    {String(index + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
                   </span>
+
                 </div>
 
+                {/* Service Details */}
                 <div className="service-card-content">
-                  <h3>{service.name}</h3>
+
+                  <h3>
+                    {translateServiceField(
+                      service,
+                      "name"
+                    )}
+                  </h3>
 
                   <p className="service-description">
-                    {service.description}
+                    {translateServiceField(
+                      service,
+                      "description"
+                    )}
                   </p>
 
                   <div className="service-card-footer">
+
+                    {/* Price */}
                     <div className="service-price">
+
                       {service.price !== null &&
                       service.price !== undefined &&
                       service.price !== "" ? (
                         <>
-                          <span>FROM</span>
+                          <span>
+                            {t("from", "FROM")}
+                          </span>
+
                           <strong>
                             ₹{Number(service.price)}
                           </strong>
                         </>
                       ) : (
-                        <strong>Contact for price</strong>
+                        <strong>
+                          {t(
+                            "contactForPrice",
+                            "Contact for price"
+                          )}
+                        </strong>
                       )}
+
                     </div>
 
+                    {/* Book Button */}
                     <button
                       type="button"
                       className="service-book-btn"
                       onClick={handleBooking}
-                      aria-label={`Book ${service.name}`}
+                      aria-label={`${t(
+                        "bookNow",
+                        "Book Now"
+                      )}: ${translateServiceField(
+                        service,
+                        "name"
+                      )}`}
                     >
-                      Book Now
+                      {t("bookNow", "Book Now")}
                     </button>
+
                   </div>
+
                 </div>
 
               </article>
             ))}
+
           </div>
         )}
 
-        {!loading && !error && services.length === 0 && (
-          <p style={{ textAlign: "center" }}>
-            No services available.
-          </p>
-        )}
+        {/* No Services */}
+        {!loading &&
+          !error &&
+          services.length === 0 && (
+            <p style={{ textAlign: "center" }}>
+              {t(
+                "noServices",
+                "No services available."
+              )}
+            </p>
+          )}
 
       </div>
     </section>

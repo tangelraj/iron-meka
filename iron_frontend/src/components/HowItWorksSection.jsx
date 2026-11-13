@@ -1,5 +1,7 @@
 
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { getTranslatedText } from "../utils/getTranslatedText";
 
 import {
   ClipboardList,
@@ -15,8 +17,10 @@ import {
 
 import "./HowItWorksSection.css";
 
-const API_BASE =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_BASE = (
+  import.meta.env.VITE_API_URL ||
+  "http://127.0.0.1:8000"
+).replace(/\/$/, "");
 
 // Icon names used in Django Admin
 const iconMap = {
@@ -74,10 +78,38 @@ const defaultSteps = [
   },
 ];
 
+const defaultStepKeys = [
+  {
+    title: "howStep1Title",
+    description: "howStep1Description",
+  },
+  {
+    title: "howStep2Title",
+    description: "howStep2Description",
+  },
+  {
+    title: "howStep3Title",
+    description: "howStep3Description",
+  },
+  {
+    title: "howStep4Title",
+    description: "howStep4Description",
+  },
+];
+
 function HowItWorksSection() {
+  const { t, i18n } = useTranslation();
+
+  const language = (
+    i18n.resolvedLanguage ||
+    i18n.language ||
+    "en"
+  ).split("-")[0];
+
   const [section, setSection] = useState(defaultSection);
   const [steps, setSteps] = useState(defaultSteps);
 
+  // Fetch content from Django Admin
   useEffect(() => {
     const controller = new AbortController();
 
@@ -85,7 +117,10 @@ function HowItWorksSection() {
       try {
         const response = await fetch(
           `${API_BASE}/api/how-it-works/`,
-          { signal: controller.signal }
+          {
+            signal: controller.signal,
+            cache: "no-store",
+          }
         );
 
         if (!response.ok) {
@@ -98,9 +133,8 @@ function HowItWorksSection() {
 
         if (data.section) {
           setSection({
-            eyebrow: data.section.eyebrow ?? "",
-            heading: data.section.heading ?? "",
-            description: data.section.description ?? "",
+            ...defaultSection,
+            ...data.section,
           });
         }
 
@@ -122,6 +156,100 @@ function HowItWorksSection() {
     return () => controller.abort();
   }, []);
 
+  // Translate section headings and description
+  const translateSectionField = (field, translationKey) => {
+    const originalText = section[field] || "";
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    // First preference: Django translated field
+    const translatedText = getTranslatedText(
+      section,
+      field,
+      language
+    );
+
+    if (translatedText !== originalText) {
+      return translatedText;
+    }
+
+    // Use static translations for unchanged default content
+    if (
+      originalText &&
+      originalText === defaultSection[field]
+    ) {
+      return t(translationKey, {
+        defaultValue: originalText,
+      });
+    }
+
+    return originalText;
+  };
+
+  // Translate individual step titles and descriptions
+  const translateStepField = (step, field, index) => {
+    const originalText = step[field] || "";
+
+    if (language === "en") {
+      return originalText;
+    }
+
+    // First preference: Django translated field
+    const translatedText = getTranslatedText(
+      step,
+      field,
+      language
+    );
+
+    if (translatedText !== originalText) {
+      return translatedText;
+    }
+
+    // Match original step title if possible
+    const matchedIndex = defaultSteps.findIndex(
+      (defaultStep) =>
+        defaultStep.title.trim().toLowerCase() ===
+        (step.title || "").trim().toLowerCase()
+    );
+
+    const stepIndex =
+      matchedIndex !== -1 ? matchedIndex : index;
+
+    const translationKey =
+      defaultStepKeys[stepIndex]?.[field];
+
+    // Static translations for the four default steps
+    if (
+      translationKey &&
+      stepIndex < defaultSteps.length &&
+      originalText === defaultSteps[stepIndex][field]
+    ) {
+      return t(translationKey, {
+        defaultValue: originalText,
+      });
+    }
+
+    // Keep custom Admin content unchanged
+    return originalText;
+  };
+
+  const sectionEyebrow = translateSectionField(
+    "eyebrow",
+    "howEyebrow"
+  );
+
+  const sectionHeading = translateSectionField(
+    "heading",
+    "howHeading"
+  );
+
+  const sectionDescription = translateSectionField(
+    "description",
+    "howDescription"
+  );
+
   return (
     <section className="how-section" id="how-it-works">
       <div className="how-container">
@@ -129,14 +257,14 @@ function HowItWorksSection() {
         {/* Section Heading */}
         <div className="how-heading">
           <p className="how-eyebrow">
-            {section.eyebrow}
+            {sectionEyebrow}
           </p>
 
-          <h2>{section.heading}</h2>
+          <h2>{sectionHeading}</h2>
 
-          {section.description && (
+          {sectionDescription && (
             <p className="how-description">
-              {section.description}
+              {sectionDescription}
             </p>
           )}
 
@@ -182,9 +310,21 @@ function HowItWorksSection() {
                     String(index + 1).padStart(2, "0")}
                 </span>
 
-                <h3>{step.title}</h3>
+                <h3>
+                  {translateStepField(
+                    step,
+                    "title",
+                    index
+                  )}
+                </h3>
 
-                <p>{step.description}</p>
+                <p>
+                  {translateStepField(
+                    step,
+                    "description",
+                    index
+                  )}
+                </p>
               </div>
             );
           })}
