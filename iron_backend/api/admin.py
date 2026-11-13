@@ -320,3 +320,43 @@ class B2BServiceItemAdmin(admin.ModelAdmin):
     )
     list_editable = ("display_order", "is_active")
     search_fields = ("title", "title_ta", "title_fr")
+
+from .models import DeliveryOfferItem
+
+
+@admin.register(DeliveryOfferItem)
+class DeliveryOfferItemAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "before",
+        "badge",
+        "after",
+        "display_order",
+        "is_active",
+    )
+
+    list_editable = (
+        "display_order",
+        "is_active",
+    )
+
+    list_filter = ("is_active", "icon_key")
+
+    search_fields = ("before", "badge", "after")
+
+    ordering = ("display_order", "id")
+
+    fieldsets = (
+        ("General", {
+            "fields": ("icon_key", "display_order", "is_active")
+        }),
+        ("English", {
+            "fields": ("before", "badge", "after")
+        }),
+        ("Tamil", {
+            "fields": ("before_ta", "badge_ta", "after_ta")
+        }),
+        ("French", {
+            "fields": ("before_fr", "badge_fr", "after_fr")
+        }),
+    )

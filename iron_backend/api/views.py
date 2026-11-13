@@ -11,6 +11,13 @@ from .models import (
     Service,
     ServicesSectionSettings,
     Testimonial,
+    SpecialtyItem,
+    FloatingButton,
+    DeliveryOfferBanner,
+    OfferBannerSettings,
+    LanguageSettings,
+    B2BServiceSettings,
+    B2BServiceItem,
 )
 
 
@@ -358,4 +365,270 @@ def contact_api(request):
         "business_hours": (
             settings.business_hours if settings else ""
         ),
+    })
+
+# ==========================================
+# MULTILINGUAL API HELPERS
+# ==========================================
+
+def translated_fields(obj, fields):
+    """
+    Return English, Tamil and French values.
+    Only include fields that exist on the model.
+    """
+    data = {}
+
+    for field in fields:
+        data[field] = getattr(obj, field, "") if obj else ""
+
+        for lang in ("ta", "fr"):
+            field_name = f"{field}_{lang}"
+
+            if obj and hasattr(obj, field_name):
+                data[field_name] = getattr(
+                    obj, field_name, ""
+                ) or ""
+            else:
+                data[field_name] = ""
+
+    return data
+
+
+# ==========================================
+# 9. SPECIALTY API
+# ==========================================
+
+def specialty_api(request):
+    section = SectionContent.objects.filter(
+        section="specialty"
+    ).first()
+
+    items = SpecialtyItem.objects.filter(
+        is_active=True
+    ).order_by("display_order", "id")
+
+    section_data = translated_fields(
+        section,
+        ["eyebrow", "heading", "description"]
+    )
+
+    section_data["image"] = get_image_url(
+        request,
+        section.image if section else None
+    )
+
+    return JsonResponse({
+        "section": section_data,
+        "items": [
+            {
+                "id": item.id,
+                **translated_fields(
+                    item,
+                    ["title", "description"]
+                ),
+                "icon_key": item.icon_key,
+                "display_order": item.display_order,
+            }
+            for item in items
+        ],
+    })
+
+
+# ==========================================
+# 10. FLOATING BUTTONS API
+# ==========================================
+
+def floating_buttons_api(request):
+    buttons = FloatingButton.objects.filter(
+        is_active=True
+    ).order_by("display_order", "id")
+
+    return JsonResponse({
+        "buttons": [
+            {
+                "id": button.id,
+                **translated_fields(
+                    button,
+                    ["label"]
+                ),
+                "icon_key": button.icon_key,
+                "url": button.url,
+                "background_color": button.background_color,
+                "text_color": button.text_color,
+                "open_new_tab": button.open_new_tab,
+                "display_order": button.display_order,
+            }
+            for button in buttons
+        ]
+    })
+
+
+# ==========================================
+# 11. DELIVERY OFFER BANNER API
+# ==========================================
+
+
+def delivery_offer_api(request):
+    banner = DeliveryOfferBanner.objects.filter(
+        is_active=True
+    ).first()
+
+    offers = DeliveryOfferItem.objects.filter(
+        is_active=True
+    ).order_by("display_order", "id")
+
+    banner_data = None
+
+    if banner:
+        banner_data = {
+            "id": banner.id,
+            **translated_fields(
+                banner,
+                ["eyebrow", "heading", "description", "button_text"]
+            ),
+            "image": get_image_url(request, banner.image),
+            "button_url": banner.button_url,
+            "is_active": banner.is_active,
+        }
+
+    return JsonResponse({
+        "banner": banner_data,
+        "offers": [
+            {
+                "id": item.id,
+                "icon": item.icon_key,
+                **translated_fields(
+                    item,
+                    ["before", "badge", "after"]
+                ),
+                "display_order": item.display_order,
+            }
+            for item in offers
+        ],
+    })
+
+
+
+# ==========================================
+# 12. OFFER BANNER API
+# ==========================================
+
+def offer_banner_api(request):
+    banner = OfferBannerSettings.objects.filter(
+        is_active=True
+    ).first()
+
+    if not banner:
+        return JsonResponse({
+            "banner": None
+        })
+
+    return JsonResponse({
+        "banner": {
+            "id": banner.id,
+            **translated_fields(
+                banner,
+                ["eyebrow", "heading", "description"]
+            ),
+            "discount_text": banner.discount_text,
+            "image": get_image_url(
+                request,
+                banner.image
+            ),
+            "button_text": banner.button_text,
+            "button_url": banner.button_url,
+            "is_active": banner.is_active,
+        }
+    })
+
+
+# ==========================================
+# 13. LANGUAGE SELECTOR API
+# ==========================================
+
+def language_settings_api(request):
+    settings = LanguageSettings.objects.first()
+
+    if not settings:
+        return JsonResponse({
+            "default_language": "en",
+            "enable_english": True,
+            "enable_tamil": True,
+            "enable_french": True,
+            "english_label": "English",
+            "tamil_label": "தமிழ்",
+            "french_label": "Français",
+            "show_language_selector": True,
+        })
+
+    return JsonResponse({
+        "default_language": settings.default_language,
+        "enable_english": settings.enable_english,
+        "enable_tamil": settings.enable_tamil,
+        "enable_french": settings.enable_french,
+        "english_label": settings.english_label,
+        "tamil_label": settings.tamil_label,
+        "french_label": settings.french_label,
+        "show_language_selector":
+            settings.show_language_selector,
+    })
+
+
+# ==========================================
+# 14. B2B SERVICES API
+# ==========================================
+
+def b2b_services_api(request):
+    section = B2BServiceSettings.objects.filter(
+        is_active=True
+    ).first()
+
+    items = B2BServiceItem.objects.filter(
+        is_active=True
+    ).order_by("display_order", "id")
+
+    if not section:
+        return JsonResponse({
+            "section": None,
+            "items": [],
+        })
+
+    section_data = translated_fields(
+        section,
+        [
+            "eyebrow",
+            "heading",
+            "description",
+            "last_description",
+            "button_text",
+        ]
+    )
+
+    section_data.update({
+        "image": get_image_url(
+            request,
+            section.image
+        ),
+        "button_url": section.button_url,
+        "is_active": section.is_active,
+    })
+
+    return JsonResponse({
+        "section": section_data,
+        "items": [
+            {
+                "id": item.id,
+                **translated_fields(
+                    item,
+                    ["title", "description"]
+                ),
+                "icon_key": item.icon_key,
+                "image": get_image_url(
+                    request,
+                    item.image
+                ),
+                "display_order": item.display_order,
+            }
+            for item in items
+        ],
     })

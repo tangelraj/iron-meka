@@ -850,3 +850,37 @@ class B2BServiceItem(models.Model):
 
     def __str__(self):
         return self.title
+
+class DeliveryOfferItem(models.Model):
+    ICON_CHOICES = [
+        ("truck", "Truck"),
+        ("wallet", "Wallet"),
+        ("package", "Package"),
+    ]
+
+    icon_key = models.CharField(
+        max_length=30,
+        choices=ICON_CHOICES,
+        default="truck"
+    )
+
+    before = models.CharField(max_length=255, blank=True)
+    before_ta = models.CharField(max_length=255, blank=True)
+    before_fr = models.CharField(max_length=255, blank=True)
+
+    badge = models.CharField(max_length=100, blank=True)
+    badge_ta = models.CharField(max_length=100, blank=True)
+    badge_fr = models.CharField(max_length=100, blank=True)
+
+    after = models.CharField(max_length=255, blank=True)
+    after_ta = models.CharField(max_length=255, blank=True)
+    after_fr = models.CharField(max_length=255, blank=True)
+
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+
+    def __str__(self):
+        return self.before or self.badge or self.after or "Delivery Offer"
