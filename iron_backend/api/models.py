@@ -73,6 +73,13 @@ class SectionContent(models.Model):
         ("testimonials", "Testimonials"),
         ("contact", "Contact"),
         ("footer", "Footer"),
+        ("specialty", "Specialty"),
+        ("specialty", "Specialty"),
+        ("floating", "Floating Buttons"),
+        ("delivery_offer", "Delivery Offer Banner"),
+        ("offer_banner", "Offer Banner"),
+        ("language_selector", "Language Selector"),
+        ("b2b", "B2B Service"),
     ]
 
     section = models.CharField(
@@ -127,7 +134,35 @@ class SectionContent(models.Model):
         max_length=255,
         blank=True
     )
+    eyebrow_ta = models.CharField(
+        max_length=150,
+        blank=True
+    )
+    eyebrow_fr = models.CharField(
+        max_length=150,
+        blank=True
+    )
 
+    heading_ta = models.CharField(
+        max_length=300,
+        blank=True
+    )
+    heading_fr = models.CharField(
+        max_length=300,
+        blank=True
+    )
+
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    button_text_ta = models.CharField(
+        max_length=100,
+        blank=True
+    )
+    button_text_fr = models.CharField(
+        max_length=100,
+        blank=True
+    )
     def __str__(self):
         return self.get_section_display()
 
@@ -428,3 +463,390 @@ class FooterLink(models.Model):
 
     def __str__(self):
         return self.label
+
+# ==========================================
+# SPECIALTY CARDS
+# ==========================================
+
+class SpecialtyItem(models.Model):
+    title = models.CharField(max_length=200)
+
+    title_ta = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    title_fr = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    icon_key = models.CharField(
+        max_length=100,
+        default="circle-check",
+        blank=True
+    )
+
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+
+    def __str__(self):
+        return self.title
+
+
+# ==========================================
+# FLOATING BUTTONS
+# ==========================================
+
+class FloatingButton(models.Model):
+    label = models.CharField(max_length=150)
+
+    label_ta = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    label_fr = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    icon_key = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    url = models.CharField(max_length=500)
+
+    background_color = models.CharField(
+        max_length=20,
+        blank=True
+    )
+
+    text_color = models.CharField(
+        max_length=20,
+        blank=True
+    )
+
+    open_new_tab = models.BooleanField(default=False)
+
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+
+    def __str__(self):
+        return self.label
+
+
+# ==========================================
+# DELIVERY OFFER BANNER
+# ==========================================
+
+class DeliveryOfferBanner(models.Model):
+    eyebrow = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_ta = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_fr = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    heading = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_ta = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_fr = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    image = models.ImageField(
+        upload_to="delivery_offer/",
+        blank=True
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_text_ta = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_text_fr = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_url = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "Delivery Offer Banner"
+
+    class Meta:
+        verbose_name_plural = "Delivery Offer Banner"
+
+
+# ==========================================
+# OFFER BANNER
+# ==========================================
+
+class OfferBannerSettings(models.Model):
+    eyebrow = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_ta = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_fr = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    heading = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_ta = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_fr = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    discount_text = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    image = models.ImageField(
+        upload_to="offers/",
+        blank=True
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_url = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "Offer Banner Settings"
+
+    class Meta:
+        verbose_name_plural = "Offer Banner Settings"
+
+
+# ==========================================
+# LANGUAGE SELECTOR
+# ==========================================
+
+class LanguageSettings(models.Model):
+    default_language = models.CharField(
+        max_length=10,
+        choices=[
+            ("en", "English"),
+            ("ta", "Tamil"),
+            ("fr", "French"),
+        ],
+        default="en"
+    )
+
+    enable_english = models.BooleanField(default=True)
+    enable_tamil = models.BooleanField(default=True)
+    enable_french = models.BooleanField(default=True)
+
+    english_label = models.CharField(
+        max_length=100,
+        default="English"
+    )
+
+    tamil_label = models.CharField(
+        max_length=100,
+        default="தமிழ்"
+    )
+
+    french_label = models.CharField(
+        max_length=100,
+        default="Français"
+    )
+
+    show_language_selector = models.BooleanField(
+        default=True
+    )
+
+    def __str__(self):
+        return "Language Selector Settings"
+
+    class Meta:
+        verbose_name_plural = "Language Selector Settings"
+
+
+# ==========================================
+# B2B SERVICE SETTINGS
+# ==========================================
+
+class B2BServiceSettings(models.Model):
+    eyebrow = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_ta = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    eyebrow_fr = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    heading = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_ta = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    heading_fr = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    last_description = models.TextField(blank=True)
+
+    last_description_ta = models.TextField(blank=True)
+    last_description_fr = models.TextField(blank=True)
+
+    image = models.ImageField(
+        upload_to="b2b/",
+        blank=True
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_text_ta = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_text_fr = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    button_url = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "B2B Service Settings"
+
+    class Meta:
+        verbose_name_plural = "B2B Service Settings"
+
+
+# ==========================================
+# B2B SERVICE ITEMS
+# ==========================================
+
+class B2BServiceItem(models.Model):
+    title = models.CharField(max_length=200)
+
+    title_ta = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    title_fr = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    description = models.TextField(blank=True)
+    description_ta = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+
+    icon_key = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    image = models.ImageField(
+        upload_to="b2b/items/",
+        blank=True
+    )
+
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+
+    def __str__(self):
+        return self.title

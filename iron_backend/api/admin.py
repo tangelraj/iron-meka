@@ -17,6 +17,13 @@ from .models import (
     ContactSettings,
     FooterSettings,
     FooterLink,
+    SpecialtyItem,
+    FloatingButton,
+    DeliveryOfferBanner,
+    OfferBannerSettings,
+    LanguageSettings,
+    B2BServiceSettings,
+    B2BServiceItem,
 )
 
 
@@ -252,3 +259,64 @@ class FooterLinkAdmin(admin.ModelAdmin):
     list_filter = ("group",)
     list_editable = ("display_order", "is_active")
     search_fields = ("label",)
+
+@admin.register(SpecialtyItem)
+class SpecialtyItemAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "display_order",
+        "is_active",
+    )
+    list_editable = ("display_order", "is_active")
+    search_fields = ("title", "title_ta", "title_fr")
+
+
+@admin.register(FloatingButton)
+class FloatingButtonAdmin(admin.ModelAdmin):
+    list_display = (
+        "label",
+        "icon_key",
+        "display_order",
+        "is_active",
+    )
+    list_editable = ("display_order", "is_active")
+
+
+@admin.register(DeliveryOfferBanner)
+class DeliveryOfferBannerAdmin(admin.ModelAdmin):
+    list_display = ("heading", "is_active")
+    list_editable = ("is_active",)
+
+
+@admin.register(OfferBannerSettings)
+class OfferBannerSettingsAdmin(admin.ModelAdmin):
+    list_display = ("heading", "is_active")
+    list_editable = ("is_active",)
+
+
+@admin.register(LanguageSettings)
+class LanguageSettingsAdmin(admin.ModelAdmin):
+    list_display = (
+        "default_language",
+        "enable_english",
+        "enable_tamil",
+        "enable_french",
+        "show_language_selector",
+    )
+
+
+@admin.register(B2BServiceSettings)
+class B2BServiceSettingsAdmin(admin.ModelAdmin):
+    list_display = ("heading", "is_active")
+    list_editable = ("is_active",)
+
+
+@admin.register(B2BServiceItem)
+class B2BServiceItemAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "display_order",
+        "is_active",
+    )
+    list_editable = ("display_order", "is_active")
+    search_fields = ("title", "title_ta", "title_fr")
